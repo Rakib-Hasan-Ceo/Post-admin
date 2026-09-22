@@ -1,117 +1,277 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Easy Poster Bot — VIP Admin Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: {} }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-            background: radial-gradient(circle at 20% 20%, #111A2E 0%, #0B1120 60%, #070B14 100%);
-            color: #E2E8F0;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        .glass {
-            background: rgba(18, 27, 46, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(56, 189, 248, 0.12);
-            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.35);
+        /* 🌙 Premium Dark Mode */
+        html.dark body {
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 30%),
+                linear-gradient(135deg, #0B1120 0%, #070B14 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 20s ease infinite;
+            color: #E2E8F0;
         }
 
-        .glass-card {
-            background: linear-gradient(135deg, rgba(24, 36, 60, 0.8), rgba(15, 23, 42, 0.9));
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-card:hover {
-            transform: translateY(-3px) scale(1.01);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 12px 35px rgba(0, 136, 204, 0.2);
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .stat-card {
+        html.dark .glass {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        html.dark .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html.dark .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        html.dark .stat-card {
             background: linear-gradient(145deg, rgba(22, 33, 56, 0.9), rgba(12, 19, 34, 0.95));
             border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #E2E8F0;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .stat-card::before {
+
+        html.dark .stat-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, #0088CC, #E2136E, #F7941D);
+            background: linear-gradient(90deg, #0088CC, #A855F7, #EC4899);
+            opacity: 0.9;
         }
 
+        html.dark .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.2);
+        }
+
+        html.dark input, html.dark textarea, html.dark select {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(56, 189, 248, 0.15) !important;
+            color: #F8FAFC !important;
+            transition: all 0.3s ease !important;
+        }
+
+        html.dark input:focus, html.dark textarea:focus, html.dark select:focus {
+            border-color: rgba(56, 189, 248, 0.5) !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1) !important;
+            outline: none !important;
+        }
+
+        /* ☀️ Premium Light Mode */
+        html:not(.dark) body {
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.1) 0%, transparent 30%),
+                linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+            color: #0F172A;
+        }
+
+        html:not(.dark) .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+        }
+
+        html:not(.dark) .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            color: #1E293B;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html:not(.dark) .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+        }
+
+        html:not(.dark) .stat-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            color: #1E293B;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html:not(.dark) .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #0088CC, #A855F7, #EC4899);
+        }
+
+        html:not(.dark) .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.15);
+        }
+
+        html:not(.dark) .stat-card p.text-white { color: #0F172A !important; }
+        html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4 { color: #0F172A !important; }
+        
+        html:not(.dark) input, html:not(.dark) textarea, html:not(.dark) select {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(203, 213, 225, 0.8) !important;
+            color: #0F172A !important;
+            transition: all 0.3s ease !important;
+        }
+
+        html:not(.dark) input:focus, html:not(.dark) textarea:focus, html:not(.dark) select:focus {
+            border-color: rgba(56, 189, 248, 0.5) !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1) !important;
+            outline: none !important;
+        }
+
+        html:not(.dark) .nav-item { color: #475569 !important; }
+        html:not(.dark) .nav-item.active { color: #0088CC !important; }
+        html:not(.dark) .bg-\[\#0B1120\] { background: rgba(241, 245, 249, 0.8) !important; border-color: #CBD5E1 !important; color: #1E293B !important; }
+        html:not(.dark) .text-gray-400 { color: #64748B !important; }
+        html:not(.dark) .text-gray-300 { color: #334155 !important; }
+
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        html.dark ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 10px; }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
+        html:not(.dark) ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 10px; }
+        html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+
+        /* Nav Item Enhancements */
         .nav-item {
-            transition: all 0.25s ease;
-            border-left: 3.5px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(180deg, #00C6FF, #0088CC);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .nav-item:hover {
+            background: rgba(56, 189, 248, 0.08);
         }
         .nav-item.active {
-            border-left-color: #00C6FF;
-            background: linear-gradient(90deg, rgba(0, 198, 255, 0.15), rgba(0, 136, 204, 0.02));
-            color: #FFFFFF;
+            background: linear-gradient(90deg, rgba(0, 198, 255, 0.15), rgba(0, 136, 204, 0.05));
             font-weight: 900;
         }
-        .nav-item.active i {
-            color: #00C6FF;
-            filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.6));
+        .nav-item.active::before {
+            transform: scaleY(1);
         }
 
-        /* 🔘 কালার বাটন স্টাইল */
-        .color-gray  { background: #1E293B; color: #CBD5E1; border: 1.5px solid #334155; }
-        .color-red   { background: linear-gradient(135deg, #FF416C, #FF4B2B); color: #FFFFFF; }
-        .color-green { background: linear-gradient(135deg, #11998e, #38ef7d); color: #FFFFFF; }
-        .color-blue  { background: linear-gradient(135deg, #0088CC, #00C6FF); color: #FFFFFF; }
-        .selected-ring { outline: 3px solid #00C6FF; outline-offset: 2px; transform: scale(1.05); }
+        /* Color Pills Enhancement */
+        .color-gray  { background: linear-gradient(135deg, #334155, #1E293B); color: #CBD5E1; border: 1px solid #475569; transition: all 0.3s ease; }
+        .color-red   { background: linear-gradient(135deg, #FF416C, #FF4B2B); color: #FFFFFF; border: 1px solid rgba(255, 75, 43, 0.3); transition: all 0.3s ease; }
+        .color-green { background: linear-gradient(135deg, #11998e, #38ef7d); color: #FFFFFF; border: 1px solid rgba(56, 239, 125, 0.3); transition: all 0.3s ease; }
+        .color-blue  { background: linear-gradient(135deg, #0088CC, #00C6FF); color: #FFFFFF; border: 1px solid rgba(0, 198, 255, 0.3); transition: all 0.3s ease; }
 
-        .medal-1 { background: linear-gradient(135deg, #FFD700, #FF8C00); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
-        .medal-2 { background: linear-gradient(135deg, #E0E7FF, #94A3B8); box-shadow: 0 0 15px rgba(224, 231, 255, 0.3); }
-        .medal-3 { background: linear-gradient(135deg, #F59E0B, #B45309); box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+        .selected-ring { 
+            outline: 2px solid #00C6FF; 
+            outline-offset: 2px; 
+            transform: scale(1.05); 
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
+        }
+
+        /* Medal Enhancements */
+        .medal-1 { background: linear-gradient(135deg, #FFD700, #FF8C00); color: white; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3); }
+        .medal-2 { background: linear-gradient(135deg, #E0E7FF, #94A3B8); color: #1E293B; box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3); }
+        .medal-3 { background: linear-gradient(135deg, #F59E0B, #B45309); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .tab-content.active { display: block; animation: slideFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes slideFadeUp {
-            from { opacity: 0; transform: translateY(12px) scale(0.99); }
+            from { opacity: 0; transform: translateY(16px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6)); }
-            50% { opacity: 0.6; transform: scale(0.9); }
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.8)); }
+            50% { opacity: 0.6; transform: scale(0.9); filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.4)); }
         }
         .pulse-live { animation: pulseGlow 2s infinite ease-in-out; }
 
-        input, textarea, select {
-            background: rgba(10, 16, 29, 0.85) !important;
-            border: 1px solid rgba(56, 189, 248, 0.2) !important;
-            color: #F8FAFC !important;
-            transition: all 0.2s ease;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none !important;
-            border-color: #00C6FF !important;
-            box-shadow: 0 0 12px rgba(0, 198, 255, 0.25) !important;
-        }
-
+        /* Premium Button Gradients */
         .btn-gradient-blue {
-            background: linear-gradient(135deg, #0088CC, #00C6FF);
-            box-shadow: 0 4px 20px rgba(0, 198, 255, 0.35);
+            background: linear-gradient(135deg, #0088CC 0%, #00C6FF 100%);
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-gradient-blue:active { transform: scale(0.98); }
+        .btn-gradient-blue::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-gradient-blue:hover::before {
+            left: 100%;
+        }
+        .btn-gradient-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 198, 255, 0.4);
+        }
 
         .btn-gradient-red {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35);
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-gradient-red:active { transform: scale(0.98); }
+        .btn-gradient-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
 
         .sidebar { width: 245px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 40; }
         .main-content { margin-left: 245px; min-height: 100vh; }
@@ -122,6 +282,22 @@
         }
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 30; }
         .overlay.show { display: block; }
+
+        /* Modal & Toast Animations */
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #modal-direct-msg > div {
+            animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #toast {
+            animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
 <body class="select-none antialiased">
@@ -129,7 +305,7 @@
     <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
     <!-- সাইডবার -->
-    <aside id="sidebar" class="sidebar glass border-r border-sky-500/15 flex flex-col justify-between">
+    <aside id="sidebar" class="sidebar glass border-r flex flex-col justify-between">
         <div>
             <div class="p-4 border-b border-sky-500/15">
                 <div class="flex items-center space-x-3">
@@ -137,8 +313,8 @@
                         <img src="https://i.ibb.co/ch2mM15h/file-392.jpg" alt="Logo" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <h1 class="font-black text-sm text-white tracking-wide">Easy Poster</h1>
-                        <p class="text-[10px] text-sky-400 font-black flex items-center space-x-1.5 mt-0.5">
+                        <h1 class="font-black text-sm tracking-wide">Easy Poster</h1>
+                        <p class="text-[10px] text-sky-500 font-black flex items-center space-x-1.5 mt-0.5">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-live"></span>
                             <span>VIP Admin Panel</span>
                         </p>
@@ -147,35 +323,35 @@
             </div>
 
             <nav class="p-3 space-y-1 overflow-y-auto">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-chart-pie w-4 text-center"></i>
                     <span>ড্যাশবোর্ড</span>
                 </button>
-                <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-users w-4 text-center text-purple-400"></i>
                     <span>ইউজার ম্যানেজমেন্ট</span>
                 </button>
-                <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-tower-broadcast w-4 text-center text-sky-400"></i>
                     <span>সংযুক্ত চ্যানেল ও গ্রুপ</span>
                 </button>
-                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
                     <span>লিডারবোর্ড</span>
                 </button>
-                <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-bullhorn w-4 text-center text-pink-400"></i>
                     <span>ব্রডকাস্ট স্টুডিও</span>
                 </button>
-                <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-clock-rotate-left w-4 text-center text-emerald-400"></i>
                     <span>পোস্ট লগ</span>
                 </button>
-                <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-bell w-4 text-center text-yellow-400"></i>
                     <span>নোটিস বোর্ড</span>
                 </button>
-                <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
                     <i class="fa-solid fa-sliders w-4 text-center text-slate-400"></i>
                     <span>সিস্টেম কন্ট্রোল</span>
                 </button>
@@ -186,7 +362,7 @@
             <div class="glass-card rounded-2xl p-2.5 flex items-center space-x-2.5">
                 <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-xs font-black text-white shadow-md">R</div>
                 <div class="truncate">
-                    <p class="text-xs font-black text-white truncate">রাকিব হাসান</p>
+                    <p class="text-xs font-black truncate">রাকিব হাসান</p>
                     <p class="text-[9px] text-amber-400 font-bold flex items-center space-x-1">
                         <i class="fa-solid fa-crown text-[8px]"></i>
                         <span>Super Creator</span>
@@ -198,23 +374,28 @@
 
     <!-- মেইন কন্টেন্ট -->
     <main class="main-content">
-        <header class="glass border-b border-sky-500/15 px-4 py-3 sticky top-0 z-20 flex items-center justify-between">
+        <header class="glass border-b px-4 py-3 sticky top-0 z-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-2xl bg-[#162032] border border-sky-500/20 flex items-center justify-center text-gray-200 active:scale-90 transition">
+                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-gray-700 dark:text-gray-200 active:scale-90 transition">
                     <i class="fa-solid fa-bars-staggered text-sm"></i>
                 </button>
                 <div>
-                    <h2 id="page-title" class="font-black text-base bg-gradient-to-r from-sky-400 via-blue-400 to-purple-400 bg-clip-text text-transparent leading-tight">ড্যাশবোর্ড</h2>
+                    <h2 id="page-title" class="font-black text-base bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent leading-tight">ড্যাশবোর্ড</h2>
                     <p class="text-[10px] text-gray-400 font-bold" id="page-subtitle">Easy Poster Bot VIP Studio</p>
                 </div>
             </div>
+
+            <!-- হেডার কন্ট্রোলস (থিম বাটন + রিফ্রেশ) -->
             <div class="flex items-center space-x-2">
-                <button onclick="refreshAll()" class="w-9 h-9 rounded-2xl bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sky-400 active:scale-90 transition shadow-inner">
+                <button onclick="toggleAdminTheme()" id="theme-toggle-btn" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sm active:scale-90 transition shadow-inner">
+                    <i class="fa-solid fa-sun text-yellow-400"></i>
+                </button>
+                <button onclick="refreshAll()" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sky-500 active:scale-90 transition shadow-inner">
                     <i class="fa-solid fa-rotate-right text-xs" id="refresh-icon"></i>
                 </button>
                 <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-2xl">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live"></span>
-                    <span class="text-[10px] font-black text-emerald-400 tracking-wider">LIVE</span>
+                    <span class="text-[10px] font-black text-emerald-500 tracking-wider">LIVE</span>
                 </div>
             </div>
         </header>
@@ -223,60 +404,71 @@
 
             <!-- TAB 1: ড্যাশবোর্ড -->
             <div id="tab-dashboard" class="tab-content active space-y-5">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
-                        <div class="w-10 h-10 rounded-2xl bg-blue-500/20 text-sky-400 flex items-center justify-center text-base"><i class="fa-solid fa-users"></i></div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
+                        <div class="w-9 h-9 rounded-2xl bg-blue-500/20 text-sky-500 flex items-center justify-center text-sm"><i class="fa-solid fa-users"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white tracking-tight" id="stat-total-users">—</p>
-                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">মোট ইউজার</p>
+                            <p class="text-xl font-black text-white tracking-tight" id="stat-total-users">—</p>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট ইউজার</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
-                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base"><i class="fa-solid fa-circle-check"></i></div>
+
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
+                        <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-sm"><i class="fa-solid fa-tower-broadcast"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white tracking-tight" id="stat-today-users">—</p>
-                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">আজকে অ্যাক্টিভ</p>
+                            <p class="text-xl font-black text-sky-400 tracking-tight" id="stat-total-channels">—</p>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট চ্যানেল/গ্রুপ</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
-                        <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-base"><i class="fa-solid fa-paper-plane"></i></div>
+
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
+                        <div class="w-9 h-9 rounded-2xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-sm"><i class="fa-solid fa-circle-check"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white tracking-tight" id="stat-total-posts">—</p>
-                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">মোট পোস্ট</p>
+                            <p class="text-xl font-black text-white tracking-tight" id="stat-today-users">—</p>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">আজকে অ্যাক্টিভ</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-base"><i class="fa-solid fa-trophy"></i></div>
+
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
+                        <div class="w-9 h-9 rounded-2xl bg-purple-500/20 text-purple-500 flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
                         <div>
-                            <p class="text-xl font-black text-white truncate" id="stat-top-user">—</p>
-                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">টপ পোস্টকারী</p>
+                            <p class="text-xl font-black text-white tracking-tight" id="stat-total-posts">—</p>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট পোস্ট</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg col-span-2 sm:col-span-1">
+                        <div class="w-9 h-9 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-sm"><i class="fa-solid fa-trophy"></i></div>
+                        <div>
+                            <p class="text-base font-black text-white truncate" id="stat-top-user">—</p>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">টপ পোস্টকারী</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="glass-card rounded-3xl p-5 space-y-3">
-                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
-                        <h3 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-bolt text-sky-400"></i>
+                    <div class="flex items-center justify-between border-b pb-3">
+                        <h3 class="font-black text-xs uppercase tracking-wider flex items-center space-x-2">
+                            <i class="fa-solid fa-bolt text-sky-500"></i>
                             <span>🆕 সাম্প্রতিক যুক্ত ইউজার</span>
                         </h3>
-                        <button onclick="switchTab('users')" class="text-[11px] font-black text-sky-400 hover:underline">সব দেখুন →</button>
+                        <button onclick="switchTab('users')" class="text-[11px] font-black text-sky-500 hover:underline">সব দেখুন →</button>
                     </div>
                     <div id="recent-users-list" class="space-y-2 pt-1">
-                        <p class="text-xs text-gray-500 font-bold text-center py-4">লোড হচ্ছে...</p>
+                        <p class="text-xs text-gray-400 font-bold text-center py-4">লোড হচ্ছে...</p>
                     </div>
                 </div>
 
                 <div class="glass-card rounded-3xl p-5 space-y-3">
-                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
-                        <h3 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-2">
-                            <i class="fa-solid fa-crown text-amber-400"></i>
+                    <div class="flex items-center justify-between border-b pb-3">
+                        <h3 class="font-black text-xs uppercase tracking-wider flex items-center space-x-2">
+                            <i class="fa-solid fa-crown text-amber-500"></i>
                             <span>🏆 টপ ৩ পোস্টকারী</span>
                         </h3>
-                        <button onclick="switchTab('leaderboard')" class="text-[11px] font-black text-amber-400 hover:underline">ফুল বোর্ড →</button>
+                        <button onclick="switchTab('leaderboard')" class="text-[11px] font-black text-amber-500 hover:underline">ফুল বোর্ড →</button>
                     </div>
                     <div id="dashboard-top3" class="space-y-2 pt-1">
-                        <p class="text-xs text-gray-500 font-bold text-center py-4">লোড হচ্ছে...</p>
+                        <p class="text-xs text-gray-400 font-bold text-center py-4">লোড হচ্ছে...</p>
                     </div>
                 </div>
             </div>
@@ -285,7 +477,7 @@
             <div id="tab-users" class="tab-content space-y-4">
                 <div class="glass-card rounded-3xl p-3.5 space-y-2.5">
                     <div class="flex items-center space-x-2">
-                        <input type="text" id="user-search-input" placeholder="নাম, ইউজারনেম বা আইডি দিয়ে সার্চ..." class="flex-1 min-w-0 rounded-2xl px-4 py-2.5 text-xs font-bold shadow-inner">
+                        <input type="text" id="user-search-input" placeholder="নাম, ইউজারনেম বা আইডি দিয়ে সার্চ..." class="flex-1 min-w-0 rounded-2xl px-4 py-2.5 text-xs font-bold shadow-inner">
                         <button onclick="searchUsers()" class="btn-gradient-blue px-4 py-2.5 rounded-2xl text-xs font-black text-white shrink-0 active:scale-95 flex items-center space-x-1.5">
                             <i class="fa-solid fa-search"></i>
                             <span class="hidden sm:inline">সার্চ</span>
@@ -298,11 +490,11 @@
 
                 <div class="flex items-center justify-between px-1">
                     <p class="text-xs text-gray-400 font-bold" id="users-count-label">ইউজার তালিকা লোড হচ্ছে...</p>
-                    <button onclick="loadUsers()" class="text-xs font-black text-sky-400 flex items-center space-x-1"><i class="fa-solid fa-rotate-right"></i><span>রিফ্রেশ</span></button>
+                    <button onclick="loadUsers()" class="text-xs font-black text-sky-500 flex items-center space-x-1"><i class="fa-solid fa-rotate-right"></i><span>রিফ্রেশ</span></button>
                 </div>
 
                 <div id="users-list" class="space-y-3">
-                    <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
+                    <p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
             </div>
 
@@ -312,15 +504,15 @@
                     <div class="flex items-center space-x-3">
                         <div class="w-11 h-11 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-tower-broadcast"></i></div>
                         <div>
-                            <h3 class="font-black text-sm text-white">সংযুক্ত চ্যানেল ও গ্রুপ</h3>
-                            <p class="text-[10px] text-sky-300 font-bold">ইউজাররা যে যে চ্যানেল ও গ্রুপ বটে কানেক্ট করেছে</p>
+                            <h3 class="font-black text-sm">সংযুক্ত চ্যানেল ও গ্রুপ</h3>
+                            <p class="text-[10px] text-sky-400 font-bold">ইউজাররা যে যে চ্যানেল ও গ্রুপ বটে কানেক্ট করেছে</p>
                         </div>
                     </div>
-                    <button onclick="loadChannelsHub()" class="px-3 py-1.5 bg-[#0B1120] border border-sky-500/30 rounded-xl text-xs font-black text-sky-400 active:scale-95"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadChannelsHub()" class="px-3 py-1.5 bg-black/20 border border-sky-500/30 rounded-xl text-xs font-black text-sky-400 active:scale-95"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
                 <div id="channels-hub-list" class="space-y-3">
-                    <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
+                    <p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
             </div>
 
@@ -328,34 +520,34 @@
             <div id="tab-leaderboard" class="tab-content space-y-4">
                 <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-3xl p-5 shadow-lg flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl shadow-inner">🏆</div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl shadow-inner">🏆</div>
                         <div>
-                            <h3 class="font-black text-base text-white">টপ লিডারবোর্ড</h3>
-                            <p class="text-[11px] text-amber-400 font-bold">সবচেয়ে বেশি পোস্টকারী সেরা ১০ ইউজার</p>
+                            <h3 class="font-black text-base">টপ লিডারবোর্ড</h3>
+                            <p class="text-[11px] text-amber-500 font-bold">সবচেয়ে বেশি পোস্টকারী সেরা ১০ ইউজার</p>
                         </div>
                     </div>
-                    <button onclick="loadLeaderboard()" class="text-xs font-black text-amber-400 bg-black/25 px-3 py-1.5 rounded-xl border border-amber-500/20"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadLeaderboard()" class="text-xs font-black text-amber-500 bg-black/25 px-3 py-1.5 rounded-xl border border-amber-500/20"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
                 <div id="leaderboard-list" class="space-y-3">
-                    <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
+                    <p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
             </div>
 
-            <!-- 📢 TAB 5: ব্রডকাস্ট স্টুডিও (৪টি আলাদা মিডিয়া + টুলবার + বাটন কালার) -->
+            <!-- TAB 5: ব্রডকাস্ট স্টুডিও -->
             <div id="tab-broadcast" class="tab-content space-y-4">
                 <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
-                    <div class="flex items-center space-x-3 pb-3 border-b border-sky-500/10">
-                        <div class="w-11 h-11 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bullhorn"></i></div>
+                    <div class="flex items-center space-x-3 pb-3 border-b">
+                        <div class="w-11 h-11 rounded-2xl bg-pink-500/20 text-pink-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bullhorn"></i></div>
                         <div>
-                            <h3 class="font-black text-sm text-white">📢 ব্রডকাস্ট স্টুডিও</h3>
+                            <h3 class="font-black text-sm">📢 ব্রডকাস্ট স্টুডিও</h3>
                             <p class="text-[10px] text-gray-400 font-bold">ফটো, ভিডিও, অডিও, ফাইল ও রঙিন বাটনসহ মেসেজ দিন</p>
                         </div>
                     </div>
 
-                    <!-- 🌟 ৪টি আলাদা মিডিয়া বাটন গ্রিড -->
+                    <!-- ৪টি আলাদা মিডিয়া বাটন -->
                     <div class="space-y-2">
-                        <label class="text-xs font-black text-sky-400 block">📁 মিডিয়া নির্বাচন করুন (ঐচ্ছিক):</label>
+                        <label class="text-xs font-black text-sky-500 block">📁 মিডিয়া নির্বাচন করুন (ঐচ্ছিক):</label>
                         <div class="grid grid-cols-4 gap-1.5">
                             <label class="bg-gradient-to-r from-[#00A3E0] to-[#0088CC] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow-md">
                                 <i class="fa-regular fa-image text-base mb-1"></i>
@@ -382,11 +574,10 @@
                             </label>
                         </div>
 
-                        <!-- সিলেক্টেড মিডিয়া প্রিভিউ ও রিমুভ -->
                         <div id="bc-media-preview-box" class="hidden bg-[#0B1120] p-2.5 rounded-2xl border border-sky-500/30 flex items-center justify-between">
                             <div class="flex items-center space-x-2 truncate">
                                 <span id="bc-media-icon" class="text-base">🖼️</span>
-                                <span id="bc-media-filename" class="text-xs font-black text-white truncate">image.jpg</span>
+                                <span id="bc-media-filename" class="text-xs font-black truncate">image.jpg</span>
                             </div>
                             <button type="button" onclick="removeBcMedia()" class="w-7 h-7 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs active:scale-90">
                                 <i class="fa-solid fa-xmark"></i>
@@ -394,7 +585,7 @@
                         </div>
                     </div>
 
-                    <!-- 🎛️ ক্যাপশন ফরম্যাটিং টুলবার -->
+                    <!-- ফরম্যাটিং টুলবার -->
                     <div class="space-y-1.5 pt-1">
                         <div class="flex justify-between items-center">
                             <label class="text-xs font-black text-gray-400">ক্যাপশন / মেসেজ লিখুন:</label>
@@ -406,20 +597,19 @@
                             <button type="button" onclick="applyBcFormatting('<tg-spoiler>', '</tg-spoiler>')" class="px-2.5 py-1 bg-[#0B1120] font-bold rounded-xl border border-sky-500/20 active:scale-90">🙈 স্পয়লার</button>
                             <button type="button" onclick="applyBcFormatting('<code>', '</code>')" class="px-2.5 py-1 bg-[#0B1120] font-mono font-bold rounded-xl border border-sky-500/20 active:scale-90">&lt;/&gt;</button>
                             <button type="button" onclick="applyBcFormatting('<blockquote>', '</blockquote>')" class="px-2.5 py-1 bg-[#0B1120] font-bold rounded-xl border border-sky-500/20 active:scale-90">❝ কোট</button>
-                            <button type="button" onclick="insertBcHyperlink()" class="px-2.5 py-1 bg-blue-500/20 text-sky-400 font-bold rounded-xl border border-sky-500/30 active:scale-90">🔗 লিংক</button>
+                            <button type="button" onclick="insertBcHyperlink()" class="px-2.5 py-1 bg-blue-500/20 text-sky-500 font-bold rounded-xl border border-sky-500/30 active:scale-90">🔗 লিংক</button>
                         </div>
                         <textarea id="broadcast-text" rows="4" placeholder="পোস্টের মূল বার্তা এখানে লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed shadow-inner"></textarea>
                     </div>
 
-                    <!-- 🔘 কাস্টম বাটন + কালার সিলেক্টর -->
+                    <!-- বাটন ও ৪টি কালার বক্স -->
                     <div class="bg-[#0B1120] p-3.5 rounded-2xl space-y-2.5 border border-sky-500/20">
-                        <span class="text-xs font-black text-amber-400 block">🔗 ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক):</span>
+                        <span class="text-xs font-black text-amber-500 block">🔗 ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক):</span>
                         <div class="grid grid-cols-2 gap-2">
                             <input type="text" id="bc-btn-text" placeholder="বাটনের নাম (যেমন: Join Channel)" class="rounded-xl px-3 py-2 text-xs font-bold">
                             <input type="url" id="bc-btn-url" placeholder="লিংক (যেমন: https://t.me/...)" class="rounded-xl px-3 py-2 text-xs font-bold">
                         </div>
 
-                        <!-- 🎨 বাটনের ৪টি কালার বক্স -->
                         <div>
                             <label class="text-[10px] font-black text-gray-400 block mb-1">বাটনের কালার বেছে নিন:</label>
                             <div class="grid grid-cols-4 gap-1.5 text-center">
@@ -431,7 +621,7 @@
                         </div>
                     </div>
 
-                    <!-- 📌 অটো পিন সুইচ -->
+                    <!-- পিন সুইচ -->
                     <div class="flex items-center justify-between pt-1">
                         <label class="flex items-center space-x-2.5 cursor-pointer">
                             <input type="checkbox" id="bc-pin-msg" class="w-4 h-4 accent-[#0088CC] rounded">
@@ -439,7 +629,7 @@
                         </label>
                     </div>
 
-                    <div class="flex items-center justify-between pt-2 border-t border-sky-500/10">
+                    <div class="flex items-center justify-between pt-2 border-t">
                         <p class="text-[11px] text-gray-400 font-bold" id="broadcast-user-count">মোট ০ জন ইউজার পাবে</p>
                         <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-gradient-blue px-7 py-3 rounded-2xl text-xs font-black text-white flex items-center space-x-2 active:scale-95 shadow-lg">
                             <i class="fa-solid fa-paper-plane"></i>
@@ -448,11 +638,11 @@
                     </div>
                 </div>
 
-                <!-- 📋 পাঠানো মেসেজের ইতিহাস -->
+                <!-- হিস্ট্রি ও মুছুন বাটন -->
                 <div class="glass-card rounded-3xl p-5 space-y-3">
-                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
-                        <h4 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-1.5">
-                            <i class="fa-solid fa-clock-rotate-left text-pink-400"></i>
+                    <div class="flex items-center justify-between border-b pb-3">
+                        <h4 class="font-black text-xs uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-clock-rotate-left text-pink-500"></i>
                             <span>পাঠানো মেসেজের ইতিহাস</span>
                         </h4>
                         <button onclick="clearBroadcastHistory()" class="px-3 py-1.5 bg-red-500/15 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-xl text-[11px] font-black active:scale-95 transition flex items-center space-x-1">
@@ -461,7 +651,7 @@
                         </button>
                     </div>
                     <div id="broadcast-history" class="space-y-2 pt-1">
-                        <p class="text-xs text-gray-500 font-bold text-center py-4">কোনো ব্রডকাস্ট ইতিহাস নেই</p>
+                        <p class="text-xs text-gray-400 font-bold text-center py-4">কোনো ব্রডকাস্ট ইতিহাস নেই</p>
                     </div>
                 </div>
             </div>
@@ -470,13 +660,13 @@
             <div id="tab-logs" class="tab-content space-y-4">
                 <div class="glass-card rounded-3xl p-4 flex items-center justify-between">
                     <div>
-                        <h3 class="font-black text-sm text-white">📋 পোস্ট অ্যাক্টিভিটি লগ</h3>
+                        <h3 class="font-black text-sm">📋 পোস্ট অ্যাক্টিভিটি লগ</h3>
                         <p class="text-[10px] text-gray-400 font-bold">কে কখন কোথায় পোস্ট করেছে তার লাইভ হিসেব</p>
                     </div>
-                    <button onclick="loadLogs()" class="text-xs font-black text-sky-400"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadLogs()" class="text-xs font-black text-sky-500"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
                 <div id="logs-list" class="space-y-2.5">
-                    <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
+                    <p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
             </div>
 
@@ -484,10 +674,10 @@
             <div id="tab-notice" class="tab-content space-y-4">
                 <div class="glass-card rounded-3xl p-5 space-y-4 border border-amber-500/30 shadow-xl">
                     <div class="flex items-center space-x-3 pb-3 border-b border-amber-500/20">
-                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bell"></i></div>
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bell"></i></div>
                         <div>
-                            <h3 class="font-black text-sm text-white">📌 গ্লোবাল নোটিস বোর্ড</h3>
-                            <p class="text-[10px] text-amber-300 font-bold">সব ইউজার অ্যাপ খুললে হোমপেজে এই নোটিসটি দেখবে</p>
+                            <h3 class="font-black text-sm">📌 গ্লোবাল নোটিস বোর্ড</h3>
+                            <p class="text-[10px] text-amber-500 font-bold">সব ইউজার অ্যাপ খুললে হোমপেজে এই নোটিসটি দেখবে</p>
                         </div>
                     </div>
 
@@ -498,7 +688,7 @@
 
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-gray-400">নোটিসের বিস্তারিত বিবরণ:</label>
-                        <textarea id="notice-body" rows="3" placeholder="ইউজারদের জন্য প্রয়োজনীয় তথ্য লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed"></textarea>
+                        <textarea id="notice-body" rows="3" placeholder="ইউজারদের জন্য প্রয়োজনীয় তথ্য লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed"></textarea>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
@@ -515,9 +705,9 @@
                 </div>
 
                 <div class="glass-card rounded-3xl p-5 space-y-3">
-                    <h4 class="font-black text-xs text-white uppercase tracking-wider">👁️ বর্তমান নোটিস প্রিভিউ</h4>
+                    <h4 class="font-black text-xs uppercase tracking-wider">👁️ বর্তমান নোটিস প্রিভিউ</h4>
                     <div id="current-notice-preview">
-                        <p class="text-xs text-gray-500 font-bold text-center py-4">কোনো নোটিস সেট করা নেই</p>
+                        <p class="text-xs text-gray-400 font-bold text-center py-4">কোনো নোটিস সেট করা নেই</p>
                     </div>
                     <button onclick="clearNotice()" id="clear-notice-btn" class="hidden w-full btn-gradient-red py-2.5 rounded-2xl text-xs font-black text-white active:scale-95">
                         <i class="fa-solid fa-trash-can mr-1"></i>নোটিস মুছে ফেলুন
@@ -528,8 +718,8 @@
             <!-- TAB 8: সিস্টেম সেটিংস -->
             <div id="tab-settings" class="tab-content space-y-4">
                 <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
-                    <h3 class="font-black text-sm text-white flex items-center space-x-2">
-                        <i class="fa-solid fa-server text-sky-400"></i>
+                    <h3 class="font-black text-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-server text-sky-500"></i>
                         <span>সিস্টেম ইনফরমেশন</span>
                     </h3>
                     <div class="grid grid-cols-2 gap-2.5">
@@ -539,31 +729,31 @@
                         </div>
                         <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
                             <p class="text-[10px] text-gray-400 font-bold">KV Storage</p>
-                            <p class="text-xs font-black text-emerald-400">POSTBOT — সক্রিয়</p>
+                            <p class="text-xs font-black text-emerald-500">POSTBOT — সক্রিয়</p>
                         </div>
                         <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
                             <p class="text-[10px] text-gray-400 font-bold">Webhook স্ট্যাটাস</p>
-                            <p class="text-xs font-black text-emerald-400" id="webhook-status">চেক করা হচ্ছে...</p>
+                            <p class="text-xs font-black text-emerald-500" id="webhook-status">চেক করা হচ্ছে...</p>
                         </div>
                         <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
                             <p class="text-[10px] text-gray-400 font-bold">দৈনিক রিপোর্ট</p>
-                            <p class="text-xs font-black text-amber-400">প্রতিদিন রাত ১২টায়</p>
+                            <p class="text-xs font-black text-amber-500">শুধুমাত্র ম্যানুয়াল</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="glass-card rounded-3xl p-5 space-y-3 shadow-xl">
-                    <h3 class="font-black text-sm text-white">🛠️ ম্যানুয়াল কমান্ড ও টুলস</h3>
+                    <h3 class="font-black text-sm">🛠️ ম্যানুয়াল কমান্ড ও টুলস</h3>
                     <div class="space-y-2">
-                        <button onclick="sendManualReport()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-sky-400 py-3 rounded-2xl text-xs font-black text-gray-200 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
-                            <i class="fa-solid fa-chart-pie text-sky-400 text-base"></i>
+                        <button onclick="sendManualReport()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-sky-400 py-3 rounded-2xl text-xs font-black text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                            <i class="fa-solid fa-chart-pie text-sky-500 text-base"></i>
                             <span>এখনই টেলিগ্রামে ডেইলি রিপোর্ট পাঠান</span>
                         </button>
-                        <button onclick="checkWebhook()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-emerald-400 py-3 rounded-2xl text-xs font-black text-gray-200 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
-                            <i class="fa-solid fa-plug text-emerald-400 text-base"></i>
+                        <button onclick="checkWebhook()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-emerald-400 py-3 rounded-2xl text-xs font-black text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                            <i class="fa-solid fa-plug text-emerald-500 text-base"></i>
                             <span>Webhook স্ট্যাটাস রিফ্রেশ করুন</span>
                         </button>
-                        <button onclick="if(confirm('সব ডেটা মুছে ফেলতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না!')) clearAllData()" class="w-full bg-[#0B1120] border border-red-500/25 hover:border-red-500 py-3 rounded-2xl text-xs font-black text-red-400 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                        <button onclick="if(confirm('সব ডেটা মুছে ফেলতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না!')) clearAllData()" class="w-full bg-[#0B1120] border border-red-500/25 hover:border-red-500 py-3 rounded-2xl text-xs font-black text-red-500 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
                             <i class="fa-solid fa-trash-can text-red-500 text-base"></i>
                             <span>সব KV ডেটা রিসেট করুন (সাবধান!)</span>
                         </button>
@@ -571,12 +761,12 @@
                 </div>
 
                 <div class="glass-card rounded-3xl p-5 text-center space-y-2 border border-amber-500/20">
-                    <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-crown"></i></div>
-                    <h4 class="font-black text-sm text-white">রাকিব হাসান</h4>
+                    <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-crown"></i></div>
+                    <h4 class="font-black text-sm">রাকিব হাসান</h4>
                     <p class="text-[10px] text-gray-400 font-bold">Easy Poster Bot Official Creator</p>
                     <div class="flex items-center justify-center space-x-1.5 pt-0.5">
-                        <i class="fa-solid fa-circle-check text-sky-400 text-[10px]"></i>
-                        <span class="text-[10px] text-sky-400 font-black">Verified Official Developer</span>
+                        <i class="fa-solid fa-circle-check text-sky-500 text-[10px]"></i>
+                        <span class="text-[10px] text-sky-500 font-black">Verified Official Developer</span>
                     </div>
                 </div>
             </div>
@@ -584,11 +774,44 @@
         </div>
     </main>
 
+    <!-- 🌟 ভিআইপি কাস্টম ডিরেক্ট মেসেজ মডাল (ব্রাউজার পপআপের পরিবর্তে) -->
+    <div id="modal-direct-msg" class="fixed inset-0 bg-black/65 backdrop-blur-md z-50 flex items-end sm:items-center justify-center hidden p-0 sm:p-4">
+        <div class="glass-card w-full max-w-md rounded-t-[36px] sm:rounded-3xl p-6 space-y-4 shadow-2xl border border-sky-500/30 animate-fade">
+            <div class="flex items-center justify-between pb-2 border-b border-sky-500/15">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-base"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div>
+                        <h3 class="text-sm font-black" id="dm-modal-username">ইউজার নেম</h3>
+                        <p class="text-[10px] text-sky-400 font-bold" id="dm-modal-userid">ID: 00000000</p>
+                    </div>
+                </div>
+                <button onclick="closeDirectMessageModal()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-800 text-gray-500 font-bold flex items-center justify-center active:scale-90">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-black text-gray-400">মেসেজ লিখুন (HTML সমর্থিত):</label>
+                <textarea id="dm-modal-text" rows="4" placeholder="ইউজারের ইনবক্সে পাঠানোর জন্য বার্তা লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed"></textarea>
+            </div>
+
+            <div class="flex items-center space-x-2 pt-1">
+                <button onclick="closeDirectMessageModal()" class="w-1/3 py-3 bg-gray-200 dark:bg-[#0B1120] rounded-2xl text-xs font-black text-gray-600 dark:text-gray-400 active:scale-95 transition">
+                    বাতিল
+                </button>
+                <button onclick="submitDirectMessage()" id="dm-send-btn" class="w-2/3 btn-gradient-blue py-3 rounded-2xl text-xs font-black text-white active:scale-95 shadow-lg flex items-center justify-center space-x-1.5 transition">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    <span>মেসেজ পাঠান</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- টোস্ট নোটিফিকেশন -->
     <div id="toast" class="fixed bottom-6 right-4 z-50 hidden">
         <div class="glass rounded-2xl px-4 py-3 flex items-center space-x-2.5 shadow-2xl border border-sky-400/40 animate-fade">
             <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-            <p id="toast-msg" class="text-xs font-black text-white"></p>
+            <p id="toast-msg" class="text-xs font-black"></p>
         </div>
     </div>
 
@@ -601,6 +824,29 @@
         let selectedBcMediaFile = null;
         let selectedBcMediaType = null;
         let currentBcBtnColor = 'gray';
+        let activeDirectUserId = null;
+
+        // ☀️🌙 লাইট / ডার্ক মোড টগল
+        function toggleAdminTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('admin_theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) {
+                btn.innerHTML = isDark ? '<i class="fa-solid fa-sun text-yellow-400"></i>' : '<i class="fa-solid fa-moon text-sky-500"></i>';
+            }
+        }
+
+        if (localStorage.getItem('admin_theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        } else {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        }
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -648,13 +894,11 @@
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
-        // 📁 ৪টি আলাদা মিডিয়া হ্যান্ডলার
         function handleBcMedia(type, event) {
             const file = event.target.files[0];
             if (file) {
                 selectedBcMediaFile = file;
                 selectedBcMediaType = type;
-                
                 const icons = { photo: '🖼️ ছবি:', video: '🎥 ভিডিও:', audio: '🎵 অডিও:', document: '📄 ফাইল:' };
                 document.getElementById('bc-media-icon').innerText = icons[type] || '📁';
                 document.getElementById('bc-media-filename').innerText = file.name;
@@ -672,7 +916,6 @@
             document.getElementById('bc-media-preview-box').classList.add('hidden');
         }
 
-        // 🎛️ ব্রডকাস্ট টেক্সট ফরম্যাটিং
         function applyBcFormatting(openTag, closeTag) {
             const textarea = document.getElementById('broadcast-text');
             const start = textarea.selectionStart;
@@ -700,10 +943,9 @@
         function cleanBcFormatting() {
             const textarea = document.getElementById('broadcast-text');
             textarea.value = textarea.value.replace(/<[^>]*>?/gm, '');
-            showToast('ফরম্যাটিং মুছে ফেলা হয়েছে');
+            showToast('ফরম্যাটিং মুছে ফেলা হয়েছে');
         }
 
-        // 🎨 বাটন কালার সিলেক্টর
         function selectBcBtnColor(color) {
             currentBcBtnColor = color;
             document.querySelectorAll('.bc-color-pill').forEach(el => el.classList.remove('selected-ring'));
@@ -718,14 +960,19 @@
                 if (data.ok) {
                     allUsersCache = data.users || {};
                     const userIds = Object.keys(allUsersCache);
-                    let totalPosts = 0, todayUsers = 0;
+                    let totalPosts = 0, todayUsers = 0, totalChannels = 0;
                     const today = new Date().toDateString();
+
                     userIds.forEach(id => {
                         totalPosts += allUsersCache[id].postCount || 0;
                         if (allUsersCache[id].lastSeen && new Date(allUsersCache[id].lastSeen).toDateString() === today) todayUsers++;
+                        if (allUsersCache[id].channels && Array.isArray(allUsersCache[id].channels)) {
+                            totalChannels += allUsersCache[id].channels.length;
+                        }
                     });
 
                     document.getElementById('stat-total-users').innerText = userIds.length;
+                    document.getElementById('stat-total-channels').innerText = totalChannels;
                     document.getElementById('stat-today-users').innerText = todayUsers;
                     document.getElementById('stat-total-posts').innerText = totalPosts;
 
@@ -739,7 +986,7 @@
                     const recentList = document.getElementById('recent-users-list');
                     const recentIds = [...userIds].sort((a, b) => new Date(allUsersCache[b].joined) - new Date(allUsersCache[a].joined)).slice(0, 5);
                     if (recentIds.length === 0) {
-                        recentList.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো ইউজার নেই</p>';
+                        recentList.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-4">কোনো ইউজার নেই</p>';
                     } else {
                         recentList.innerHTML = '';
                         recentIds.forEach(id => {
@@ -751,10 +998,10 @@
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
+                                        <p class="text-xs font-black truncate">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id} • যোগ: ${joinDate}</p>
                                     </div>
-                                    <span class="text-xs font-black text-sky-400">${u.postCount || 0} পোস্ট</span>
+                                    <span class="text-xs font-black text-sky-500">${u.postCount || 0} পোস্ট</span>
                                 </div>
                             `;
                         });
@@ -764,7 +1011,7 @@
                     const top3 = [...userIds].sort((a, b) => (allUsersCache[b].postCount || 0) - (allUsersCache[a].postCount || 0)).slice(0, 3);
                     const medals = ['🥇', '🥈', '🥉'];
                     if (top3.length === 0) {
-                        top3List.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো পোস্ট নেই</p>';
+                        top3List.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-4">কোনো পোস্ট নেই</p>';
                     } else {
                         top3List.innerHTML = '';
                         top3.forEach((id, i) => {
@@ -776,10 +1023,10 @@
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
+                                        <p class="text-xs font-black truncate">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
-                                    <span class="text-xs font-black text-amber-400">${u.postCount || 0} পোস্ট</span>
+                                    <span class="text-xs font-black text-amber-500">${u.postCount || 0} পোস্ট</span>
                                 </div>
                             `;
                         });
@@ -795,7 +1042,7 @@
             const container = document.getElementById('users-list');
             const label = document.getElementById('users-count-label');
             if (!users) {
-                container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>';
+                container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>';
                 try {
                     const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                     const data = await res.json();
@@ -807,7 +1054,7 @@
             label.innerText = `মোট ${ids.length} জন ইউজার`;
             updateBroadcastCount();
 
-            if (ids.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">কোনো ইউজার নেই</p>'; return; }
+            if (ids.length === 0) { container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">কোনো ইউজার নেই</p>'; return; }
 
             container.innerHTML = '';
             ids.forEach(id => {
@@ -823,11 +1070,11 @@
                             ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
+                            <p class="text-sm font-black truncate">${u.name || 'User'}</p>
                             <p class="text-[10px] text-gray-400 font-bold truncate">${u.username ? '@'+u.username : 'ইউজারনেম নেই'}</p>
                         </div>
                         <div class="text-right shrink-0">
-                            <p class="text-lg font-black text-sky-400">${u.postCount || 0}</p>
+                            <p class="text-lg font-black text-sky-500">${u.postCount || 0}</p>
                             <p class="text-[9px] text-gray-400 font-bold uppercase">পোস্ট</p>
                         </div>
                     </div>
@@ -838,7 +1085,7 @@
                         <span class="truncate">🤖 ${channels}</span>
                     </div>
                     <div class="flex space-x-2">
-                        <button onclick="sendDirectMessage('${id}','${(u.name || 'User').replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-sky-500/15 border border-sky-500/30 rounded-xl text-xs font-black text-sky-300 active:scale-95 transition">
+                        <button onclick="sendDirectMessage('${id}','${(u.name || 'User').replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-sky-500/15 border border-sky-500/30 rounded-xl text-xs font-black text-sky-500 active:scale-95 transition">
                             <i class="fa-solid fa-message mr-1"></i>মেসেজ পাঠান
                         </button>
                         <button onclick="copyToClipboard('${id}')" class="px-3.5 py-2 bg-[#0B1120] border border-sky-500/20 rounded-xl text-xs font-black text-gray-400 active:scale-95 transition">
@@ -853,7 +1100,7 @@
         // 📡 সংযুক্ত চ্যানেল ও গ্রুপ হাব
         async function loadChannelsHub() {
             const container = document.getElementById('channels-hub-list');
-            container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>';
+            container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>';
             
             try {
                 if (Object.keys(allUsersCache).length === 0) {
@@ -882,7 +1129,7 @@
                 });
 
                 if (allChannelsList.length === 0) {
-                    container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">এখনো কোনো ইউজার চ্যানেল বা গ্রুপ যুক্ত করেনি</p>';
+                    container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">এখনো কোনো ইউজার চ্যানেল বা গ্রুপ যুক্ত করেনি</p>';
                     return;
                 }
 
@@ -897,8 +1144,8 @@
                                 <i class="fa-solid fa-bullhorn"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-sm font-black text-white truncate">${item.channel}</h4>
-                                <p class="text-[10px] text-sky-400 font-bold">অ্যাড করা চ্যানেল / গ্রুপ</p>
+                                <h4 class="text-sm font-black truncate">${item.channel}</h4>
+                                <p class="text-[10px] text-sky-500 font-bold">অ্যাড করা চ্যানেল / গ্রুপ</p>
                             </div>
                             ${isUsername ? `<a href="https://t.me/${item.channel.replace('@','')}" target="_blank" class="px-3.5 py-1.5 btn-gradient-blue text-white rounded-xl text-xs font-black shrink-0 active:scale-95"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
                         </div>
@@ -907,7 +1154,7 @@
                                 <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[9px] overflow-hidden shrink-0">
                                     ${item.userPhoto ? `<img src="${item.userPhoto}" class="w-full h-full object-cover">` : (item.userName.charAt(0).toUpperCase())}
                                 </div>
-                                <span class="text-gray-300 truncate">👤 ${item.userName}</span>
+                                <span class="truncate">👤 ${item.userName}</span>
                             </div>
                             <span class="text-gray-400 shrink-0">🆔 ${item.userId}</span>
                         </div>
@@ -940,7 +1187,7 @@
         // লিডারবোর্ড
         async function loadLeaderboard() {
             const container = document.getElementById('leaderboard-list');
-            container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>';
+            container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>';
             try {
                 const res = await fetch(`${WORKER_URL}/leaderboard?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
@@ -959,18 +1206,18 @@
                                 ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
+                                <p class="text-sm font-black truncate">${u.name || 'User'}</p>
                                 <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : u.id}</p>
                             </div>
                             <div class="text-right shrink-0">
-                                <p class="text-xl font-black ${i===0?'text-amber-400':i===1?'text-slate-200':i===2?'text-amber-600':'text-sky-400'}">${u.postCount || 0}</p>
+                                <p class="text-xl font-black ${i===0?'text-amber-500':i===1?'text-slate-400':i===2?'text-amber-600':'text-sky-500'}">${u.postCount || 0}</p>
                                 <p class="text-[9px] text-gray-400 font-bold uppercase">পোস্ট</p>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">কোনো পোস্ট নেই</p>';
+                    container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">কোনো পোস্ট নেই</p>';
                 }
             } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
@@ -980,14 +1227,14 @@
             document.getElementById('broadcast-user-count').innerText = `মোট ${count} জন ইউজার পাবে`;
         }
 
-        // 📢 ব্রডকাস্ট পাঠানো (ফটো/ভিডিও/অডিও/ফাইল + বাটন কালার)
+        // ব্রডকাস্ট পাঠানো
         async function sendBroadcast() {
             const msg = document.getElementById('broadcast-text').value.trim();
             const btnText = document.getElementById('bc-btn-text').value.trim();
             const btnUrl = document.getElementById('bc-btn-url').value.trim();
             const isPin = document.getElementById('bc-pin-msg').checked;
 
-            if (!msg && !selectedBcMediaFile) { showToast('মেসেজ লিখুন বা মিডিয়া বেছে নিন!', 'error'); return; }
+            if (!msg && !selectedBcMediaFile) { showToast('মেসেজ লিখুন বা মিডিয়া বেছে নিন!', 'error'); return; }
 
             let replyMarkup = null;
             if (btnText && btnUrl) {
@@ -1062,7 +1309,7 @@
                     } catch(e) {}
                 }
 
-                showToast(`${sent} জন ইউজারকে সফলভাবে পাঠানো হয়েছে!`);
+                showToast(`${sent} জন ইউজারকে সফলভাবে পাঠানো হয়েছে!`);
                 const history = JSON.parse(localStorage.getItem('broadcast_history') || '[]');
                 history.unshift({
                     msg: (msg || (selectedBcMediaFile ? selectedBcMediaType.toUpperCase() + ': ' + selectedBcMediaFile.name : 'Broadcast')).substring(0, 80),
@@ -1075,21 +1322,21 @@
                 document.getElementById('bc-btn-url').value = '';
                 removeBcMedia();
                 loadBroadcastHistory();
-            } catch(e) { showToast('ব্রডকাস্ট পাঠাতে সমস্যা হয়েছে', 'error'); }
+            } catch(e) { showToast('ব্রডকাস্ট পাঠাতে সমস্যা হয়েছে', 'error'); }
             finally { btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>পাঠান</span>'; btn.disabled = false; }
         }
 
         function loadBroadcastHistory() {
             const history = JSON.parse(localStorage.getItem('broadcast_history') || '[]');
             const container = document.getElementById('broadcast-history');
-            if (!history.length) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো ব্রডকাস্ট ইতিহাস নেই</p>'; return; }
+            if (!history.length) { container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-4">কোনো ব্রডকাস্ট ইতিহাস নেই</p>'; return; }
             container.innerHTML = '';
             history.forEach(h => {
                 container.innerHTML += `
                     <div class="log-item rounded-2xl p-3.5 space-y-1.5 border border-sky-500/10 shadow-sm">
-                        <p class="text-xs font-bold text-gray-200 truncate">${h.msg}</p>
+                        <p class="text-xs font-bold truncate">${h.msg}</p>
                         <div class="flex items-center justify-between text-[10px] font-bold text-gray-400">
-                            <span class="text-emerald-400">📤 ${h.sent} জনকে পাঠানো হয়েছে</span>
+                            <span class="text-emerald-500">📤 ${h.sent} জনকে পাঠানো হয়েছে</span>
                             <span>${h.time}</span>
                         </div>
                     </div>
@@ -1101,13 +1348,13 @@
             if (!confirm('আপনি কি সব ব্রডকাস্ট হিস্ট্রি মুছে ফেলতে চান?')) return;
             localStorage.removeItem('broadcast_history');
             loadBroadcastHistory();
-            showToast('ব্রডকাস্ট হিস্ট্রি মুছে ফেলা হয়েছে!');
+            showToast('ব্রডকাস্ট হিস্ট্রি মুছে ফেলা হয়েছে!');
         }
 
         // পোস্ট লগ
         async function loadLogs() {
             const container = document.getElementById('logs-list');
-            container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>';
+            container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>';
             try {
                 const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
@@ -1115,7 +1362,7 @@
                     const users = data.users || {};
                     const ids = Object.keys(users).filter(id => (users[id].postCount || 0) > 0)
                         .sort((a, b) => new Date(users[b].lastSeen) - new Date(users[a].lastSeen));
-                    if (ids.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">কোনো পোস্ট লগ নেই</p>'; return; }
+                    if (ids.length === 0) { container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">কোনো পোস্ট লগ নেই</p>'; return; }
                     container.innerHTML = '';
                     ids.forEach(id => {
                         const u = users[id];
@@ -1127,10 +1374,10 @@
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white">${u.name || 'User'}</p>
+                                        <p class="text-xs font-black truncate">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
-                                    <span class="text-xs font-black text-sky-400">${u.postCount || 0} পোস্ট</span>
+                                    <span class="text-xs font-black text-sky-500">${u.postCount || 0} পোস্ট</span>
                                 </div>
                                 <div class="text-[10px] font-bold text-gray-400 space-y-0.5 bg-[#0B1120] p-2 rounded-xl">
                                     <p>🤖 চ্যানেল: ${channels}</p>
@@ -1163,11 +1410,11 @@
                 });
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('নোটিস ক্লাউডে সেভ হয়েছে!');
+                    showToast('নোটিস ক্লাউডে সেভ হয়েছে!');
                     localStorage.setItem('admin_notice', JSON.stringify(notice));
                     loadCurrentNotice();
                 } else {
-                    showToast('সেভ করা যায়নি', 'error');
+                    showToast('সেভ করা যায়নি', 'error');
                 }
             } catch(e) {
                 showToast('সার্ভার সংযোগ সমস্যা', 'error');
@@ -1181,7 +1428,7 @@
             const raw = localStorage.getItem('admin_notice');
             const container = document.getElementById('current-notice-preview');
             const clearBtn = document.getElementById('clear-notice-btn');
-            if (!raw) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো নোটিস সেট করা নেই</p>'; clearBtn.classList.add('hidden'); return; }
+            if (!raw) { container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-4">কোনো নোটিস সেট করা নেই</p>'; clearBtn.classList.add('hidden'); return; }
             const n = JSON.parse(raw);
             const icons = { info: 'ℹ️', warning: '⚠️', success: '✅', error: '🚫' };
             const colors = { info: 'border-blue-500/40 bg-blue-500/10', warning: 'border-amber-500/40 bg-amber-500/10', success: 'border-emerald-500/40 bg-emerald-500/10', error: 'border-red-500/40 bg-red-500/10' };
@@ -1189,10 +1436,10 @@
                 <div class="border ${colors[n.type]} rounded-2xl p-4 space-y-2">
                     <div class="flex items-center space-x-2">
                         <span class="text-lg">${icons[n.type]}</span>
-                        <h4 class="font-black text-sm text-white">${n.title}</h4>
+                        <h4 class="font-black text-sm">${n.title}</h4>
                     </div>
-                    <p class="text-xs text-gray-300 leading-relaxed">${n.body}</p>
-                    <p class="text-[10px] text-gray-400 font-bold">সেট করা হয়েছে: ${new Date(n.time).toLocaleString('bn-BD')}</p>
+                    <p class="text-xs leading-relaxed opacity-90">${n.body}</p>
+                    <p class="text-[10px] text-gray-400 font-bold">সেট করা হয়েছে: ${new Date(n.time).toLocaleString('bn-BD')}</p>
                 </div>
             `;
             clearBtn.classList.remove('hidden');
@@ -1203,28 +1450,63 @@
                 await fetch(`${WORKER_URL}/notice?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
                 localStorage.removeItem('admin_notice');
                 loadCurrentNotice();
-                showToast('নোটিস মুছে ফেলা হয়েছে');
+                showToast('নোটিস মুছে ফেলা হয়েছে');
             } catch(e) {
-                showToast('মুছতে সমস্যা হয়েছে', 'error');
+                showToast('মুছতে সমস্যা হয়েছে', 'error');
             }
         }
 
-        // ডিরেক্ট মেসেজ
-        async function sendDirectMessage(userId, userName) {
-            const msg = prompt(`${userName} কে মেসেজ পাঠান:`);
-            if (!msg) return;
+        // 🌟 সুন্দর কাস্টম ইন-অ্যাপ মেসেজ ডায়লগ ফাংশন
+        function sendDirectMessage(userId, userName) {
+            activeDirectUserId = userId;
+            document.getElementById('dm-modal-username').innerText = userName;
+            document.getElementById('dm-modal-userid').innerText = `ID: ${userId}`;
+            document.getElementById('dm-modal-text').value = '';
+            document.getElementById('modal-direct-msg').classList.remove('hidden');
+        }
+
+        function closeDirectMessageModal() {
+            activeDirectUserId = null;
+            document.getElementById('modal-direct-msg').classList.add('hidden');
+        }
+
+        async function submitDirectMessage() {
+            const msg = document.getElementById('dm-modal-text').value.trim();
+            if (!msg) { showToast('মেসেজ লিখুন!', 'error'); return; }
+            if (!activeDirectUserId) return;
+
+            const btn = document.getElementById('dm-send-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>পাঠানো হচ্ছে...</span>';
+            btn.disabled = true;
+
             try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: userId, text: `📩 <b>অ্যাডমিনের মেসেজ:</b>\n\n${msg}`, parse_mode: 'HTML' })
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: activeDirectUserId,
+                        text: `📩 <b>অ্যাডমিনের মেসেজ:</b>\n\n${msg}`,
+                        parse_mode: 'HTML'
+                    })
                 });
-                showToast(`${userName} কে মেসেজ পাঠানো হয়েছে!`);
-            } catch(e) { showToast('মেসেজ পাঠানো যায়নি', 'error'); }
+                const data = await res.json();
+                if (data.ok) {
+                    showToast('মেসেজ সফলভাবে পাঠানো হয়েছে!');
+                    closeDirectMessageModal();
+                } else {
+                    showToast('মেসেজ পাঠানো যায়নি', 'error');
+                }
+            } catch(e) {
+                showToast('সার্ভার সংযোগ সমস্যা', 'error');
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i><span>মেসেজ পাঠান</span>';
+                btn.disabled = false;
+            }
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            showToast('আইডি কপি হয়েছে!');
+            showToast('আইডি কপি হয়েছে!');
         }
 
         // Webhook চেক
@@ -1234,8 +1516,8 @@
                 const data = await res.json();
                 const el = document.getElementById('webhook-status');
                 if (data.ok && data.result.url) {
-                    el.innerText = '✅ সক্রিয়';
-                    el.className = 'text-xs font-black text-emerald-400';
+                    el.innerText = '✅ সক্রিয়';
+                    el.className = 'text-xs font-black text-emerald-500';
                 } else {
                     el.innerText = '❌ সেট করা নেই';
                     el.className = 'text-xs font-black text-red-400';
@@ -1243,14 +1525,14 @@
             } catch(e) {}
         }
 
-        // ম্যানুয়াল রিপোর্ট
+        // ম্যানুয়াল রিপোর্ট
         async function sendManualReport() {
             showToast('রিপোর্ট পাঠানো হচ্ছে...');
             try {
                 const res = await fetch(`${WORKER_URL}/daily-report?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('রিপোর্ট টেলিগ্রামে পাঠানো হয়েছে!');
+                    showToast('রিপোর্ট টেলিগ্রামে পাঠানো হয়েছে!');
                 } else {
                     showToast('রিপোর্ট পাঠাতে ব্যর্থ', 'error');
                 }
@@ -1263,11 +1545,11 @@
                 const res = await fetch(`${WORKER_URL}/clear?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('সব ডেটা মুছে ফেলা হয়েছে');
+                    showToast('সব ডেটা মুছে ফেলা হয়েছে');
                     allUsersCache = {};
                     loadDashboard();
                 }
-            } catch(e) { showToast('ডেটা মুছতে সমস্যা হয়েছে', 'error'); }
+            } catch(e) { showToast('ডেটা মুছতে সমস্যা হয়েছে', 'error'); }
         }
 
         // সব রিফ্রেশ
