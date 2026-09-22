@@ -247,24 +247,62 @@
 
             </div>
 
-            <!-- ব্রডকাস্ট ট্যাব -->
+            <!-- 📢 সমৃদ্ধ মাল্টিমিডিয়া ব্রডকাস্ট ট্যাব -->
             <div id="tab-broadcast" class="tab-content space-y-4">
 
                 <div class="glass rounded-2xl p-5 space-y-4">
                     <div class="flex items-center space-x-3 pb-3 border-b border-[#233554]">
                         <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center"><i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i></div>
                         <div>
-                            <h3 class="font-black text-sm text-white">📢 সব ইউজারকে মেসেজ পাঠান</h3>
-                            <p class="text-[10px] text-gray-500 font-bold">ব্রডকাস্ট মেসেজ সব ইউজারের বটে পৌঁছাবে</p>
+                            <h3 class="font-black text-sm text-white">📢 সব ইউজারকে ব্রডকাস্ট পাঠান</h3>
+                            <p class="text-[10px] text-gray-500 font-bold">ছবি, ভিডিও, অডিও, ফাইল ও বাটনসহ মেসেজ পাঠান</p>
                         </div>
                     </div>
 
+                    <!-- মিডিয়ার ধরন নির্বাচন -->
                     <div class="space-y-1.5">
-                        <label class="text-xs font-black text-gray-400">মেসেজ লিখুন (HTML ফরম্যাট সাপোর্টেড):</label>
-                        <textarea id="broadcast-text" rows="6" placeholder="যেমন: ✅ নতুন আপডেট এসেছে! আজ থেকে নতুন ফিচার ব্যবহার করুন।&#10;&#10;<b>বোল্ড</b>, <i>ইটালিক</i>, <code>কোড</code> সাপোর্টেড।" class="w-full rounded-2xl px-4 py-3 text-sm font-medium resize-none leading-relaxed"></textarea>
+                        <label class="text-xs font-black text-gray-400">মেসেজের ধরন নির্বাচন করুন:</label>
+                        <select id="bc-media-type" onchange="toggleBroadcastMediaInput()" class="w-full rounded-xl px-3.5 py-2.5 text-xs font-black">
+                            <option value="text">📝 শুধু টেক্সট মেসেজ</option>
+                            <option value="photo">🖼️ ছবি (Photo Link)</option>
+                            <option value="video">🎥 ভিডিও (Video Link)</option>
+                            <option value="audio">🎵 অডিও (Audio Link)</option>
+                            <option value="document">📄 ফাইল / ডক (File Link)</option>
+                        </select>
                     </div>
 
-                    <div class="flex items-center justify-between">
+                    <!-- মিডিয়া লিংক ইনপুট -->
+                    <div id="bc-media-url-box" class="hidden space-y-1.5">
+                        <label class="text-xs font-black text-blue-400" id="bc-media-label">মিডিয়া লিংক দিন (Direct URL):</label>
+                        <input type="url" id="bc-media-url" placeholder="https://example.com/image.jpg" class="w-full rounded-xl px-3.5 py-2.5 text-xs font-bold">
+                    </div>
+
+                    <!-- ক্যাপশন / টেক্সট -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-black text-gray-400">মেসেজ / ক্যাপশন লিখুন (HTML সাপোর্টেড):</label>
+                        <textarea id="broadcast-text" rows="5" placeholder="যেমন: ✅ নতুন আপডেট এসেছে!&#10;&#10;<b>বোল্ড</b>, <i>ইটালিক</i>, <code>কোড</code> সাপোর্টেড।" class="w-full rounded-2xl px-4 py-3 text-xs font-medium resize-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- 🔘 কাস্টম বাটন (চ্যানেল লিংক বা ওয়েবসাইট বাটন) -->
+                    <div class="bg-[#0B1120] p-3 rounded-2xl space-y-2.5 border border-[#233554]">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black text-amber-400">🔗 ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক)</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="bc-btn-text" placeholder="বাটনের নাম (যেমন: Join Channel)" class="rounded-xl px-3 py-2 text-xs font-bold">
+                            <input type="url" id="bc-btn-url" placeholder="লিংক (যেমন: https://t.me/...)" class="rounded-xl px-3 py-2 text-xs font-bold">
+                        </div>
+                    </div>
+
+                    <!-- 📌 অটো পিন সুইচ -->
+                    <div class="flex items-center justify-between pt-1">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="bc-pin-msg" class="w-4 h-4 accent-[#0088CC] rounded">
+                            <span class="text-xs font-bold text-gray-300">📌 ইউজারের চ্যাটে মেসেজটি অটো-পিন করুন</span>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2 border-t border-[#233554]">
                         <p class="text-[11px] text-gray-500 font-bold" id="broadcast-user-count">মোট ০ জন ইউজার পাবে</p>
                         <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-primary px-6 py-2.5 rounded-xl text-sm font-black text-white flex items-center space-x-2 active:scale-95">
                             <i class="fa-solid fa-paper-plane"></i>
@@ -419,7 +457,6 @@
         const ADMIN_ID = '6975980147';
         let allUsersCache = {};
 
-        // ট্যাব সুইচ
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -464,6 +501,20 @@
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
+        function toggleBroadcastMediaInput() {
+            const mType = document.getElementById('bc-media-type').value;
+            const urlBox = document.getElementById('bc-media-url-box');
+            const label = document.getElementById('bc-media-label');
+            if (mType === 'text') {
+                urlBox.classList.add('hidden');
+            } else {
+                urlBox.classList.remove('hidden');
+                label.innerText = mType === 'photo' ? 'ছবির ডিরেক্ট লিঙ্ক (Photo URL):' :
+                                  mType === 'video' ? 'ভিডিওর ডিরেক্ট লিঙ্ক (Video URL):' :
+                                  mType === 'audio' ? 'অডিওর ডিরেক্ট লিঙ্ক (Audio URL):' : 'ফাইলের ডিরেক্ট লিঙ্ক (File URL):';
+            }
+        }
+
         // ড্যাশবোর্ড লোড
         async function loadDashboard() {
             try {
@@ -490,7 +541,7 @@
                         document.getElementById('stat-top-user').innerText = 'কেউ নেই';
                     }
 
-                    // সাম্প্রতিক ইউজার (শেষ ৫ জন)
+                    // সাম্প্রতিক ইউজার
                     const recentList = document.getElementById('recent-users-list');
                     const recentIds = [...userIds].sort((a, b) => new Date(allUsersCache[b].joined) - new Date(allUsersCache[a].joined)).slice(0, 5);
                     if (recentIds.length === 0) {
@@ -606,7 +657,7 @@
             });
         }
 
-        // ক্লায়েন্ট-সাইড সুপারফাস্ট সার্চ
+        // সার্চ
         function searchUsers() {
             const query = document.getElementById('user-search-input').value.trim().toLowerCase();
             if (!query) { loadUsers(allUsersCache); return; }
@@ -662,31 +713,59 @@
             } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
-        // ব্রডকাস্ট কাউন্ট আপডেট
+        // ব্রডকাস্ট কাউন্ট
         function updateBroadcastCount() {
             const count = Object.keys(allUsersCache).length;
             document.getElementById('broadcast-user-count').innerText = `মোট ${count} জন ইউজার পাবে`;
         }
 
-        // ব্রডকাস্ট পাঠান
+        // মাল্টিমিডিয়া ব্রডকাস্ট পাঠান
         async function sendBroadcast() {
             const msg = document.getElementById('broadcast-text').value.trim();
-            if (!msg) { showToast('মেসেজ লিখুন!', 'error'); return; }
+            const mediaType = document.getElementById('bc-media-type').value;
+            const mediaUrl = document.getElementById('bc-media-url').value.trim();
+            const btnText = document.getElementById('bc-btn-text').value.trim();
+            const btnUrl = document.getElementById('bc-btn-url').value.trim();
+            const isPin = document.getElementById('bc-pin-msg').checked;
+
+            if (!msg && !mediaUrl) { showToast('মেসেজ বা মিডিয়া লিঙ্ক লিখুন!', 'error'); return; }
+
+            let buttons = null;
+            if (btnText && btnUrl) {
+                buttons = [[{ text: btnText, url: btnUrl }]];
+            }
+
             const btn = document.getElementById('broadcast-btn');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>পাঠানো হচ্ছে...</span>';
             btn.disabled = true;
+
             try {
                 const res = await fetch(`${WORKER_URL}/broadcast`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg, admin_id: ADMIN_ID })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: msg,
+                        media_type: mediaType,
+                        media_url: mediaUrl,
+                        buttons: buttons,
+                        is_pin: isPin,
+                        admin_id: ADMIN_ID
+                    })
                 });
                 const data = await res.json();
                 if (data.ok) {
-                    showToast(`${data.sent} জন ইউজারকে মেসেজ পাঠানো হয়েছে!`);
+                    showToast(`${data.sent} জন ইউজারকে সফলভাবে পাঠানো হয়েছে!`);
                     const history = JSON.parse(localStorage.getItem('broadcast_history') || '[]');
-                    history.unshift({ msg: msg.substring(0, 80), sent: data.sent, time: new Date().toLocaleString('bn-BD') });
+                    history.unshift({
+                        msg: (msg || mediaType.toUpperCase() + ' Media').substring(0, 80),
+                        sent: data.sent,
+                        time: new Date().toLocaleString('bn-BD')
+                    });
                     localStorage.setItem('broadcast_history', JSON.stringify(history.slice(0, 10)));
                     document.getElementById('broadcast-text').value = '';
+                    document.getElementById('bc-media-url').value = '';
+                    document.getElementById('bc-btn-text').value = '';
+                    document.getElementById('bc-btn-url').value = '';
                     loadBroadcastHistory();
                 } else { showToast('পাঠানো যায়নি', 'error'); }
             } catch(e) { showToast('সার্ভার সংযোগ সম্ভব হয়নি', 'error'); }
@@ -750,7 +829,7 @@
             } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
-        // ক্লাউড নোটিস সেভ (সরাসরি KV-তে সেভ হবে)
+        // ক্লাউড নোটিস সেভ
         async function saveNotice() {
             const title = document.getElementById('notice-title').value.trim();
             const body = document.getElementById('notice-body').value.trim();
@@ -770,7 +849,7 @@
                 });
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('নোটিস ক্লাউডে সেভ হয়েছে! ইউজাররা দেখতে পাবে।');
+                    showToast('নোটিস ক্লাউডে সেভ হয়েছে!');
                     localStorage.setItem('admin_notice', JSON.stringify(notice));
                     loadCurrentNotice();
                 } else {
@@ -886,10 +965,8 @@
             setTimeout(() => { icon.className = 'fa-solid fa-rotate-right text-sm'; }, 1000);
         }
 
-        // Enter দিয়ে সার্চ
         document.getElementById('user-search-input').addEventListener('keydown', e => { if (e.key === 'Enter') searchUsers(); });
 
-        // ইনিট
         loadDashboard();
         loadBroadcastHistory();
         loadCurrentNotice();
