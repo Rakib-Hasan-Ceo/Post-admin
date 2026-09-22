@@ -329,7 +329,7 @@
                             <option value="success">✅ সফলতা</option>
                             <option value="error">🚫 জরুরি</option>
                         </select>
-                        <button onclick="saveNotice()" class="btn-primary py-2.5 rounded-xl text-sm font-black text-white active:scale-95">
+                        <button onclick="saveNotice()" id="save-notice-btn" class="btn-primary py-2.5 rounded-xl text-sm font-black text-white active:scale-95">
                             <i class="fa-solid fa-save mr-1"></i>নোটিস সেভ করুন
                         </button>
                     </div>
@@ -418,7 +418,6 @@
         const WORKER_URL = 'https://post.myalorhawa.workers.dev';
         const ADMIN_ID = '6975980147';
         let allUsersCache = {};
-        let broadcastHistoryCache = [];
 
         // ট্যাব সুইচ
         function switchTab(tabName) {
@@ -471,43 +470,43 @@
                 const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
                 if (data.ok) {
-                    allUsersCache = data.users;
-                    const userIds = Object.keys(data.users);
+                    allUsersCache = data.users || {};
+                    const userIds = Object.keys(allUsersCache);
                     let totalPosts = 0, todayUsers = 0;
                     const today = new Date().toDateString();
                     userIds.forEach(id => {
-                        totalPosts += data.users[id].postCount || 0;
-                        if (data.users[id].lastSeen && new Date(data.users[id].lastSeen).toDateString() === today) todayUsers++;
+                        totalPosts += allUsersCache[id].postCount || 0;
+                        if (allUsersCache[id].lastSeen && new Date(allUsersCache[id].lastSeen).toDateString() === today) todayUsers++;
                     });
 
                     document.getElementById('stat-total-users').innerText = userIds.length;
                     document.getElementById('stat-today-users').innerText = todayUsers;
                     document.getElementById('stat-total-posts').innerText = totalPosts;
 
-                    const sorted = userIds.sort((a, b) => (data.users[b].postCount || 0) - (data.users[a].postCount || 0));
-                    if (sorted.length > 0) {
-                        document.getElementById('stat-top-user').innerText = data.users[sorted[0]].name.split(' ')[0];
+                    const sorted = userIds.sort((a, b) => (allUsersCache[b].postCount || 0) - (allUsersCache[a].postCount || 0));
+                    if (sorted.length > 0 && allUsersCache[sorted[0]]) {
+                        document.getElementById('stat-top-user').innerText = (allUsersCache[sorted[0]].name || 'User').split(' ')[0];
                     } else {
                         document.getElementById('stat-top-user').innerText = 'কেউ নেই';
                     }
 
                     // সাম্প্রতিক ইউজার (শেষ ৫ জন)
                     const recentList = document.getElementById('recent-users-list');
-                    const recentIds = [...userIds].sort((a, b) => new Date(data.users[b].joined) - new Date(data.users[a].joined)).slice(0, 5);
+                    const recentIds = [...userIds].sort((a, b) => new Date(allUsersCache[b].joined) - new Date(allUsersCache[a].joined)).slice(0, 5);
                     if (recentIds.length === 0) {
                         recentList.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো ইউজার নেই</p>';
                     } else {
                         recentList.innerHTML = '';
                         recentIds.forEach(id => {
-                            const u = data.users[id];
+                            const u = allUsersCache[id];
                             const joinDate = new Date(u.joined).toLocaleDateString('bn-BD');
                             recentList.innerHTML += `
                                 <div class="flex items-center space-x-3 py-2 border-b border-[#233554]/50 last:border-0">
                                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
-                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${u.name.charAt(0).toUpperCase()}'">` : u.name.charAt(0).toUpperCase()}
+                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white truncate">${u.name}</p>
+                                        <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id} • যোগ: ${joinDate}</p>
                                     </div>
                                     <span class="text-xs font-black text-[#0088CC]">${u.postCount || 0} পোস্ট</span>
@@ -518,22 +517,22 @@
 
                     // টপ ৩
                     const top3List = document.getElementById('dashboard-top3');
-                    const top3 = [...userIds].sort((a, b) => (data.users[b].postCount || 0) - (data.users[a].postCount || 0)).slice(0, 3);
+                    const top3 = [...userIds].sort((a, b) => (allUsersCache[b].postCount || 0) - (allUsersCache[a].postCount || 0)).slice(0, 3);
                     const medals = ['🥇', '🥈', '🥉'];
                     if (top3.length === 0) {
                         top3List.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">কোনো পোস্ট নেই</p>';
                     } else {
                         top3List.innerHTML = '';
                         top3.forEach((id, i) => {
-                            const u = data.users[id];
+                            const u = allUsersCache[id];
                             top3List.innerHTML += `
                                 <div class="flex items-center space-x-3 py-2 border-b border-[#233554]/50 last:border-0">
                                     <span class="text-xl w-8 text-center flex-shrink-0">${medals[i]}</span>
                                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
-                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${u.name.charAt(0).toUpperCase()}'">` : u.name.charAt(0).toUpperCase()}
+                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white truncate">${u.name}</p>
+                                        <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
                                     <span class="text-sm font-black text-amber-400">${u.postCount || 0}</span>
@@ -556,7 +555,7 @@
                 try {
                     const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                     const data = await res.json();
-                    if (data.ok) { allUsersCache = data.users; users = data.users; }
+                    if (data.ok) { allUsersCache = data.users || {}; users = allUsersCache; }
                 } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; return; }
             }
 
@@ -577,10 +576,10 @@
                 card.innerHTML = `
                     <div class="flex items-center space-x-3">
                         <div class="w-11 h-11 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0 overflow-hidden">
-                            ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${u.name.charAt(0).toUpperCase()}'">` : u.name.charAt(0).toUpperCase()}
+                            ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-black text-white truncate">${u.name}</p>
+                            <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
                             <p class="text-[10px] text-gray-500 font-bold truncate">${u.username ? '@'+u.username : 'ইউজারনেম নেই'}</p>
                         </div>
                         <div class="text-right flex-shrink-0">
@@ -595,7 +594,7 @@
                         <span class="truncate">🤖 ${channels}</span>
                     </div>
                     <div class="flex space-x-2">
-                        <button onclick="sendDirectMessage('${id}','${u.name.replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-[#0088CC]/20 border border-[#0088CC]/30 rounded-xl text-xs font-black text-[#0088CC] active:scale-95 transition">
+                        <button onclick="sendDirectMessage('${id}','${(u.name || 'User').replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-[#0088CC]/20 border border-[#0088CC]/30 rounded-xl text-xs font-black text-[#0088CC] active:scale-95 transition">
                             <i class="fa-solid fa-message mr-1"></i>মেসেজ পাঠান
                         </button>
                         <button onclick="copyToClipboard('${id}')" class="px-3 py-2 bg-[#162032] border border-[#233554] rounded-xl text-xs font-black text-gray-400 active:scale-95 transition">
@@ -607,20 +606,22 @@
             });
         }
 
-        // সার্চ
-        async function searchUsers() {
-            const query = document.getElementById('user-search-input').value.trim();
-            if (!query) { loadUsers(); return; }
-            const container = document.getElementById('users-list');
-            container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-4">সার্চ হচ্ছে...</p>';
-            try {
-                const res = await fetch(`${WORKER_URL}/search?admin_id=${ADMIN_ID}&q=${encodeURIComponent(query)}`);
-                const data = await res.json();
-                if (data.ok) {
-                    if (Object.keys(data.users).length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">কোনো ফলাফল পাওয়া যায়নি</p>'; return; }
-                    loadUsers(data.users);
+        // ক্লায়েন্ট-সাইড সুপারফাস্ট সার্চ
+        function searchUsers() {
+            const query = document.getElementById('user-search-input').value.trim().toLowerCase();
+            if (!query) { loadUsers(allUsersCache); return; }
+            const results = {};
+            Object.keys(allUsersCache).forEach(id => {
+                const u = allUsersCache[id];
+                if (
+                    (u.name && u.name.toLowerCase().includes(query)) ||
+                    id.includes(query) ||
+                    (u.username && u.username.toLowerCase().includes(query))
+                ) {
+                    results[id] = u;
                 }
-            } catch(e) { showToast('সার্চ করা যায়নি', 'error'); }
+            });
+            loadUsers(results);
         }
 
         // লিডারবোর্ড
@@ -630,7 +631,7 @@
             try {
                 const res = await fetch(`${WORKER_URL}/leaderboard?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
-                if (data.ok && data.leaderboard.length > 0) {
+                if (data.ok && data.leaderboard && data.leaderboard.length > 0) {
                     container.innerHTML = '';
                     const medals = ['🥇','🥈','🥉'];
                     const medalBg = ['medal-1','medal-2','medal-3'];
@@ -642,10 +643,10 @@
                                 ${i < 3 ? medals[i] : `<span class="text-gray-400">${i+1}</span>`}
                             </div>
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0 overflow-hidden">
-                                ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${u.name.charAt(0).toUpperCase()}'">` : u.name.charAt(0).toUpperCase()}
+                                ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-black text-white truncate">${u.name}</p>
+                                <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
                                 <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : u.id}</p>
                             </div>
                             <div class="text-right flex-shrink-0">
@@ -718,7 +719,7 @@
                 const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
                 if (data.ok) {
-                    const users = data.users;
+                    const users = data.users || {};
                     const ids = Object.keys(users).filter(id => (users[id].postCount || 0) > 0)
                         .sort((a, b) => new Date(users[b].lastSeen) - new Date(users[a].lastSeen));
                     if (ids.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">কোনো পোস্ট লগ নেই</p>'; return; }
@@ -730,10 +731,10 @@
                             <div class="log-item rounded-xl p-3.5 space-y-2">
                                 <div class="flex items-center space-x-2.5">
                                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
-                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${u.name.charAt(0).toUpperCase()}'">` : u.name.charAt(0).toUpperCase()}
+                                        ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-xs font-black text-white">${u.name}</p>
+                                        <p class="text-xs font-black text-white">${u.name || 'User'}</p>
                                         <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
                                     <span class="text-xs font-black text-[#0088CC]">${u.postCount || 0} পোস্ট</span>
@@ -749,16 +750,38 @@
             } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
-        // নোটিস সেভ
-        function saveNotice() {
+        // ক্লাউড নোটিস সেভ (সরাসরি KV-তে সেভ হবে)
+        async function saveNotice() {
             const title = document.getElementById('notice-title').value.trim();
             const body = document.getElementById('notice-body').value.trim();
             const type = document.getElementById('notice-type').value;
             if (!title || !body) { showToast('শিরোনাম ও বিবরণ লিখুন!', 'error'); return; }
+            
+            const btn = document.getElementById('save-notice-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>সেভ হচ্ছে...';
+            btn.disabled = true;
+
             const notice = { title, body, type, time: new Date().toISOString() };
-            localStorage.setItem('admin_notice', JSON.stringify(notice));
-            showToast('নোটিস সেভ হয়েছে!');
-            loadCurrentNotice();
+            try {
+                const res = await fetch(`${WORKER_URL}/notice`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ notice, admin_id: ADMIN_ID })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    showToast('নোটিস ক্লাউডে সেভ হয়েছে! ইউজাররা দেখতে পাবে।');
+                    localStorage.setItem('admin_notice', JSON.stringify(notice));
+                    loadCurrentNotice();
+                } else {
+                    showToast('সেভ করা যায়নি', 'error');
+                }
+            } catch(e) {
+                showToast('সার্ভার সংযোগ সমস্যা', 'error');
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-save mr-1"></i>নোটিস সেভ করুন';
+                btn.disabled = false;
+            }
         }
 
         function loadCurrentNotice() {
@@ -782,10 +805,15 @@
             clearBtn.classList.remove('hidden');
         }
 
-        function clearNotice() {
-            localStorage.removeItem('admin_notice');
-            loadCurrentNotice();
-            showToast('নোটিস মুছে ফেলা হয়েছে');
+        async function clearNotice() {
+            try {
+                await fetch(`${WORKER_URL}/notice?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
+                localStorage.removeItem('admin_notice');
+                loadCurrentNotice();
+                showToast('নোটিস মুছে ফেলা হয়েছে');
+            } catch(e) {
+                showToast('মুছতে সমস্যা হয়েছে', 'error');
+            }
         }
 
         // ডিরেক্ট মেসেজ
@@ -826,19 +854,27 @@
         async function sendManualReport() {
             showToast('রিপোর্ট পাঠানো হচ্ছে...');
             try {
-                await fetch(`${WORKER_URL}/daily-report?admin_id=${ADMIN_ID}`);
-                showToast('রিপোর্ট পাঠানো হয়েছে!');
-            } catch(e) { showToast('Worker এ report endpoint যোগ করা নেই', 'error'); }
+                const res = await fetch(`${WORKER_URL}/daily-report?admin_id=${ADMIN_ID}`);
+                const data = await res.json();
+                if (data.ok) {
+                    showToast('রিপোর্ট টেলিগ্রামে পাঠানো হয়েছে!');
+                } else {
+                    showToast('রিপোর্ট পাঠাতে ব্যর্থ', 'error');
+                }
+            } catch(e) { showToast('সার্ভার সংযোগ সমস্যা', 'error'); }
         }
 
         // সব ডেটা মুছুন
         async function clearAllData() {
             try {
-                await fetch(`${WORKER_URL}/clear?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
-                showToast('সব ডেটা মুছে ফেলা হয়েছে');
-                allUsersCache = {};
-                loadDashboard();
-            } catch(e) { showToast('Worker এ clear endpoint যোগ করা নেই', 'error'); }
+                const res = await fetch(`${WORKER_URL}/clear?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.ok) {
+                    showToast('সব ডেটা মুছে ফেলা হয়েছে');
+                    allUsersCache = {};
+                    loadDashboard();
+                }
+            } catch(e) { showToast('ডেটা মুছতে সমস্যা হয়েছে', 'error'); }
         }
 
         // সব রিফ্রেশ
