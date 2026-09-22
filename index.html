@@ -3,460 +3,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Easy Poster Bot — Admin Panel</title>
+    <title>Easy Poster Bot — VIP Admin Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; background: #0B1120; color: #E2E8F0; -webkit-tap-highlight-color: transparent; }
-        .glass { background: rgba(22,32,50,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(35,53,84,0.8); }
-        .stat-card { background: linear-gradient(135deg, rgba(22,32,50,0.9), rgba(15,24,40,0.95)); border: 1px solid rgba(35,53,84,0.8); transition: all 0.3s ease; }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,136,204,0.15); }
-        .nav-item { transition: all 0.2s ease; border-left: 3px solid transparent; }
-        .nav-item.active { border-left-color: #0088CC; background: rgba(0,136,204,0.1); color: #0088CC; }
-        .nav-item:hover:not(.active) { background: rgba(255,255,255,0.05); }
-        .user-card { background: rgba(22,32,50,0.7); border: 1px solid rgba(35,53,84,0.6); transition: all 0.2s ease; }
-        .user-card:hover { border-color: rgba(0,136,204,0.4); transform: scale(1.005); }
-        .medal-1 { background: linear-gradient(135deg,#FFD700,#FFA500); }
-        .medal-2 { background: linear-gradient(135deg,#C0C0C0,#A8A8A8); }
-        .medal-3 { background: linear-gradient(135deg,#CD7F32,#A0522D); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            background: radial-gradient(circle at 20% 20%, #111A2E 0%, #0B1120 60%, #070B14 100%);
+            color: #E2E8F0;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+        }
+
+        /* 🌟 গ্লাস ইফেক্ট */
+        .glass {
+            background: rgba(18, 27, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.12);
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.35);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(24, 36, 60, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 35px rgba(0, 136, 204, 0.2);
+        }
+
+        /* 🌈 স্ট্যাটাস কার্ড গ্লো */
+        .stat-card {
+            background: linear-gradient(145deg, rgba(22, 33, 56, 0.9), rgba(12, 19, 34, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #0088CC, #E2136E, #F7941D);
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 136, 204, 0.25);
+        }
+
+        /* 🔘 নেভিগেশন আইটেম */
+        .nav-item {
+            transition: all 0.25s ease;
+            border-left: 3.5px solid transparent;
+            position: relative;
+        }
+        .nav-item.active {
+            border-left-color: #00C6FF;
+            background: linear-gradient(90deg, rgba(0, 198, 255, 0.15), rgba(0, 136, 204, 0.02));
+            color: #FFFFFF;
+            font-weight: 900;
+        }
+        .nav-item.active i {
+            color: #00C6FF;
+            filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.6));
+        }
+        .nav-item:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(3px);
+        }
+
+        /* 🥇 মেডেল গ্রেডিয়েন্ট */
+        .medal-1 { background: linear-gradient(135deg, #FFD700, #FF8C00); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+        .medal-2 { background: linear-gradient(135deg, #E0E7FF, #94A3B8); box-shadow: 0 0 15px rgba(224, 231, 255, 0.3); }
+        .medal-3 { background: linear-gradient(135deg, #F59E0B, #B45309); box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 0.3s ease forwards; }
-        .pulse-dot { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0B1120; } ::-webkit-scrollbar-thumb { background: #233554; border-radius: 2px; }
-        input, textarea, select { background: rgba(11,17,32,0.8) !important; border: 1px solid rgba(35,53,84,0.8) !important; color: #E2E8F0 !important; }
-        input::placeholder, textarea::placeholder { color: #64748B !important; }
-        input:focus, textarea:focus { outline: none !important; border-color: #0088CC !important; }
-        .btn-primary { background: linear-gradient(135deg,#0088CC,#00C6FF); transition: all 0.2s ease; }
-        .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-danger { background: linear-gradient(135deg,#EF4444,#DC2626); transition: all 0.2s ease; }
-        .btn-danger:active { transform: scale(0.98); }
-        .notice-card { background: linear-gradient(135deg,rgba(245,158,11,0.1),rgba(217,119,6,0.05)); border: 1px solid rgba(245,158,11,0.3); }
-        .log-item { border-left: 3px solid #0088CC; background: rgba(0,136,204,0.05); }
-        .sidebar { width: 240px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 40; }
-        .main-content { margin-left: 240px; min-height: 100vh; }
-        @media (max-width: 768px) { .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; } .sidebar.open { transform: translateX(0); } .main-content { margin-left: 0; } }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 30; }
+        .tab-content.active { display: block; animation: slideFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(12px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6)); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+        .pulse-live { animation: pulseGlow 2s infinite ease-in-out; }
+
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-float { animation: floatEffect 3s infinite ease-in-out; }
+
+        /* 🎛️ ইনপুট ও বাটন স্টাইল */
+        input, textarea, select {
+            background: rgba(10, 16, 29, 0.85) !important;
+            border: 1px solid rgba(56, 189, 248, 0.2) !important;
+            color: #F8FAFC !important;
+            transition: all 0.2s ease;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none !important;
+            border-color: #00C6FF !important;
+            box-shadow: 0 0 12px rgba(0, 198, 255, 0.25) !important;
+        }
+
+        .btn-gradient-blue {
+            background: linear-gradient(135deg, #0088CC, #00C6FF);
+            box-shadow: 0 4px 20px rgba(0, 198, 255, 0.35);
+        }
+        .btn-gradient-blue:hover { filter: brightness(1.1); transform: scale(1.02); }
+        .btn-gradient-blue:active { transform: scale(0.98); }
+
+        .btn-gradient-red {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35);
+        }
+        .btn-gradient-red:active { transform: scale(0.98); }
+
+        .sidebar { width: 245px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 40; }
+        .main-content { margin-left: 245px; min-height: 100vh; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 30; }
         .overlay.show { display: block; }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="select-none antialiased">
 
     <!-- মোবাইল ওভারলে -->
     <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
-    <!-- সাইডবার -->
-    <aside id="sidebar" class="sidebar glass border-r border-[#233554] flex flex-col">
-        <!-- লোগো -->
-        <div class="p-5 border-b border-[#233554]">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl overflow-hidden border border-[#0088CC]/40 shadow-lg shadow-blue-500/20">
-                    <img src="https://i.ibb.co/ch2mM15h/file-392.jpg" alt="Logo" class="w-full h-full object-cover">
-                </div>
-                <div>
-                    <h1 class="font-black text-sm text-white leading-tight">Easy Poster Bot</h1>
-                    <p class="text-[10px] text-[#0088CC] font-bold flex items-center space-x-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot inline-block"></span>
-                        <span>Admin Panel</span>
-                    </p>
+    <!-- 🌟 প্রিমিয়াম সাইডবার -->
+    <aside id="sidebar" class="sidebar glass border-r border-sky-500/15 flex flex-col justify-between">
+        <div>
+            <!-- লোগো -->
+            <div class="p-4 border-b border-sky-500/15">
+                <div class="flex items-center space-x-3">
+                    <div class="w-11 h-11 rounded-2xl overflow-hidden border-2 border-sky-400/40 shadow-lg shadow-sky-500/20 animate-float">
+                        <img src="https://i.ibb.co/ch2mM15h/file-392.jpg" alt="Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="font-black text-sm text-white tracking-wide">Easy Poster</h1>
+                        <p class="text-[10px] text-sky-400 font-black flex items-center space-x-1.5 mt-0.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-live"></span>
+                            <span>VIP Admin Panel</span>
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <!-- নেভিগেশন মেনু -->
+            <nav class="p-3 space-y-1 overflow-y-auto">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                    <span>ড্যাশবোর্ড</span>
+                </button>
+                <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-users w-4 text-center text-purple-400"></i>
+                    <span>ইউজার ম্যানেজমেন্ট</span>
+                </button>
+                <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-tower-broadcast w-4 text-center text-sky-400"></i>
+                    <span>সংযুক্ত চ্যানেল ও গ্রুপ</span>
+                </button>
+                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+                    <span>লিডারবোর্ড</span>
+                </button>
+                <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-bullhorn w-4 text-center text-pink-400"></i>
+                    <span>ব্রডকাস্ট স্টুডিও</span>
+                </button>
+                <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-clock-rotate-left w-4 text-center text-emerald-400"></i>
+                    <span>পোস্ট লগ</span>
+                </button>
+                <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-bell w-4 text-center text-yellow-400"></i>
+                    <span>নোটিস বোর্ড</span>
+                </button>
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black text-gray-300">
+                    <i class="fa-solid fa-sliders w-4 text-center text-slate-400"></i>
+                    <span>সিস্টেম কন্ট্রোল</span>
+                </button>
+            </nav>
         </div>
 
-        <!-- নেভিগেশন -->
-        <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-chart-pie w-4 text-center text-[#0088CC]"></i>
-                <span>ড্যাশবোর্ড</span>
-            </button>
-            <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-users w-4 text-center text-purple-400"></i>
-                <span>ইউজার ম্যানেজমেন্ট</span>
-            </button>
-            <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-tower-broadcast w-4 text-center text-sky-400"></i>
-                <span>সংযুক্ত চ্যানেল ও গ্রুপ</span>
-            </button>
-            <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
-                <span>লিডারবোর্ড</span>
-            </button>
-            <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-bullhorn w-4 text-center text-pink-400"></i>
-                <span>ব্রডকাস্ট</span>
-            </button>
-            <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-clock-rotate-left w-4 text-center text-emerald-400"></i>
-                <span>পোস্ট লগ</span>
-            </button>
-            <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-bell w-4 text-center text-yellow-400"></i>
-                <span>নোটিস বোর্ড</span>
-            </button>
-            <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-sm font-bold text-gray-300">
-                <i class="fa-solid fa-gear w-4 text-center text-gray-400"></i>
-                <span>সিস্টেম</span>
-            </button>
-        </nav>
-
-        <!-- অ্যাডমিন ইনফো -->
-        <div class="p-3 border-t border-[#233554]">
-            <div class="flex items-center space-x-2.5 px-2 py-1.5">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xs font-black text-white">R</div>
-                <div>
-                    <p class="text-xs font-black text-white">রাকিব হাসান</p>
-                    <p class="text-[10px] text-amber-400 font-bold">👑 Super Admin</p>
+        <!-- অ্যাডমিন প্রোফাইল ফুটার -->
+        <div class="p-3 border-t border-sky-500/15">
+            <div class="glass-card rounded-2xl p-2.5 flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-xs font-black text-white shadow-md">R</div>
+                <div class="truncate">
+                    <p class="text-xs font-black text-white truncate">রাকিব হাসান</p>
+                    <p class="text-[9px] text-amber-400 font-bold flex items-center space-x-1">
+                        <i class="fa-solid fa-crown text-[8px]"></i>
+                        <span>Super Creator</span>
+                    </p>
                 </div>
             </div>
         </div>
     </aside>
 
-    <!-- মেইন কন্টেন্ট -->
+    <!-- 🌟 মেইন কন্টেন্ট এলাকা -->
     <main class="main-content">
 
-        <!-- টপ হেডার -->
-        <header class="glass border-b border-[#233554] px-5 py-3.5 flex items-center justify-between sticky top-0 z-20">
+        <!-- হেডার বার -->
+        <header class="glass border-b border-sky-500/15 px-4 py-3 sticky top-0 z-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-xl bg-[#162032] border border-[#233554] flex items-center justify-center text-gray-300 active:scale-90">
-                    <i class="fa-solid fa-bars text-sm"></i>
+                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-2xl bg-[#162032] border border-sky-500/20 flex items-center justify-center text-gray-200 active:scale-90 transition">
+                    <i class="fa-solid fa-bars-staggered text-sm"></i>
                 </button>
                 <div>
-                    <h2 id="page-title" class="font-black text-base text-white">ড্যাশবোর্ড</h2>
-                    <p class="text-[10px] text-gray-500 font-bold" id="page-subtitle">Easy Poster Bot Admin Panel</p>
+                    <h2 id="page-title" class="font-black text-base bg-gradient-to-r from-sky-400 via-blue-400 to-purple-400 bg-clip-text text-transparent leading-tight">ড্যাশবোর্ড</h2>
+                    <p class="text-[10px] text-gray-400 font-bold" id="page-subtitle">Easy Poster Bot VIP Studio</p>
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <button onclick="refreshAll()" class="w-9 h-9 rounded-xl bg-[#162032] border border-[#233554] flex items-center justify-center text-[#0088CC] active:scale-90 transition">
-                    <i class="fa-solid fa-rotate-right text-sm" id="refresh-icon"></i>
+                <button onclick="refreshAll()" class="w-9 h-9 rounded-2xl bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sky-400 active:scale-90 transition shadow-inner">
+                    <i class="fa-solid fa-rotate-right text-xs" id="refresh-icon"></i>
                 </button>
-                <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-xl">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
-                    <span class="text-[10px] font-black text-emerald-400">Live</span>
+                <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-2xl">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live"></span>
+                    <span class="text-[10px] font-black text-emerald-400 tracking-wider">LIVE</span>
                 </div>
             </div>
         </header>
 
         <div class="p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
 
-            <!-- ড্যাশবোর্ড ট্যাব -->
-            <div id="tab-dashboard" class="tab-content active animate-fade space-y-6">
+            <!-- 📊 TAB 1: ড্যাশবোর্ড -->
+            <div id="tab-dashboard" class="tab-content active space-y-5">
 
-                <!-- স্ট্যাটস কার্ড -->
+                <!-- ৪টি নিয়ন স্ট্যাটাস কার্ড -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="stat-card rounded-2xl p-4 space-y-2">
-                        <div class="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center"><i class="fa-solid fa-users text-[#0088CC]"></i></div>
+                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
+                        <div class="w-10 h-10 rounded-2xl bg-blue-500/20 text-sky-400 flex items-center justify-center text-base"><i class="fa-solid fa-users"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white" id="stat-total-users">—</p>
-                            <p class="text-[10px] text-gray-500 font-bold">মোট ইউজার</p>
+                            <p class="text-2xl font-black text-white tracking-tight" id="stat-total-users">—</p>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">মোট ইউজার</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-2xl p-4 space-y-2">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 flex items-center justify-center"><i class="fa-solid fa-circle-check text-emerald-400"></i></div>
+                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base"><i class="fa-solid fa-circle-check"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white" id="stat-today-users">—</p>
-                            <p class="text-[10px] text-gray-500 font-bold">আজকে অ্যাক্টিভ</p>
+                            <p class="text-2xl font-black text-white tracking-tight" id="stat-today-users">—</p>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">আজকে অ্যাক্টিভ</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-2xl p-4 space-y-2">
-                        <div class="w-9 h-9 rounded-xl bg-purple-500/20 flex items-center justify-center"><i class="fa-solid fa-paper-plane text-purple-400"></i></div>
+                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
+                        <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-base"><i class="fa-solid fa-paper-plane"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white" id="stat-total-posts">—</p>
-                            <p class="text-[10px] text-gray-500 font-bold">মোট পোস্ট</p>
+                            <p class="text-2xl font-black text-white tracking-tight" id="stat-total-posts">—</p>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">মোট পোস্ট</p>
                         </div>
                     </div>
-                    <div class="stat-card rounded-2xl p-4 space-y-2">
-                        <div class="w-9 h-9 rounded-xl bg-amber-500/20 flex items-center justify-center"><i class="fa-solid fa-trophy text-amber-400"></i></div>
+                    <div class="stat-card rounded-3xl p-4 space-y-2 shadow-lg">
+                        <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-base"><i class="fa-solid fa-trophy"></i></div>
                         <div>
-                            <p class="text-2xl font-black text-white" id="stat-top-user">—</p>
-                            <p class="text-[10px] text-gray-500 font-bold">টপ পোস্টকারী</p>
+                            <p class="text-xl font-black text-white truncate" id="stat-top-user">—</p>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-wider">টপ পোস্টকারী</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- সাম্প্রতিক ইউজার -->
-                <div class="glass rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-black text-sm text-white">🆕 সাম্প্রতিক ইউজার</h3>
-                        <button onclick="switchTab('users')" class="text-[11px] font-black text-[#0088CC] hover:underline">সব দেখুন →</button>
+                <div class="glass-card rounded-3xl p-5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
+                        <h3 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-2">
+                            <i class="fa-solid fa-bolt text-sky-400"></i>
+                            <span>🆕 সাম্প্রতিক যুক্ত ইউজার</span>
+                        </h3>
+                        <button onclick="switchTab('users')" class="text-[11px] font-black text-sky-400 hover:underline">সব দেখুন →</button>
                     </div>
-                    <div id="recent-users-list" class="space-y-2">
+                    <div id="recent-users-list" class="space-y-2 pt-1">
                         <p class="text-xs text-gray-500 font-bold text-center py-4">লোড হচ্ছে...</p>
                     </div>
                 </div>
 
-                <!-- টপ ৩ পোস্টকারী -->
-                <div class="glass rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-black text-sm text-white">🏆 টপ ৩ পোস্টকারী</h3>
-                        <button onclick="switchTab('leaderboard')" class="text-[11px] font-black text-[#0088CC] hover:underline">ফুল বোর্ড →</button>
+                <!-- টপ ৩ লিডারবোর্ড প্রিভিউ -->
+                <div class="glass-card rounded-3xl p-5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
+                        <h3 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-2">
+                            <i class="fa-solid fa-crown text-amber-400"></i>
+                            <span>🏆 টপ ৩ পোস্টকারী</span>
+                        </h3>
+                        <button onclick="switchTab('leaderboard')" class="text-[11px] font-black text-amber-400 hover:underline">ফুল বোর্ড →</button>
                     </div>
-                    <div id="dashboard-top3" class="space-y-2">
+                    <div id="dashboard-top3" class="space-y-2 pt-1">
                         <p class="text-xs text-gray-500 font-bold text-center py-4">লোড হচ্ছে...</p>
                     </div>
                 </div>
 
             </div>
 
-            <!-- ইউজার ম্যানেজমেন্ট ট্যাব (Search UI Fixed) -->
+            <!-- 👥 TAB 2: ইউজার ম্যানেজমেন্ট -->
             <div id="tab-users" class="tab-content space-y-4">
-
-                <!-- 🔍 পারফেক্ট মোবাইল রেসপন্সিভ সার্চ বক্স -->
-                <div class="glass rounded-2xl p-3.5 space-y-2.5">
+                
+                <!-- পারফেক্ট মোবাইল সার্চ বার -->
+                <div class="glass-card rounded-3xl p-3.5 space-y-2.5">
                     <div class="flex items-center space-x-2">
-                        <input type="text" id="user-search-input" placeholder="নাম, ইউজারনেম বা আইডি দিয়ে সার্চ..." class="flex-1 min-w-0 rounded-xl px-3.5 py-2.5 text-xs font-bold">
-                        <button onclick="searchUsers()" class="btn-primary px-3.5 py-2.5 rounded-xl text-xs font-black text-white shrink-0 active:scale-95 flex items-center space-x-1">
+                        <input type="text" id="user-search-input" placeholder="নাম, ইউজারনেম বা আইডি দিয়ে সার্চ..." class="flex-1 min-w-0 rounded-2xl px-4 py-2.5 text-xs font-bold shadow-inner">
+                        <button onclick="searchUsers()" class="btn-gradient-blue px-4 py-2.5 rounded-2xl text-xs font-black text-white shrink-0 active:scale-95 flex items-center space-x-1.5">
                             <i class="fa-solid fa-search"></i>
                             <span class="hidden sm:inline">সার্চ</span>
                         </button>
-                        <button onclick="loadUsers()" class="px-3 py-2.5 rounded-xl text-xs font-black text-gray-300 bg-[#162032] border border-[#233554] shrink-0 active:scale-95">
+                        <button onclick="loadUsers()" class="px-3.5 py-2.5 rounded-2xl text-xs font-black text-gray-300 bg-[#0B1120] border border-sky-500/20 shrink-0 active:scale-95">
                             সব
                         </button>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between px-1">
-                    <p class="text-xs text-gray-500 font-bold" id="users-count-label">সব ইউজার লোড হচ্ছে...</p>
-                    <button onclick="loadUsers()" class="text-xs font-black text-[#0088CC]"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <p class="text-xs text-gray-400 font-bold" id="users-count-label">ইউজার তালিকা লোড হচ্ছে...</p>
+                    <button onclick="loadUsers()" class="text-xs font-black text-sky-400 flex items-center space-x-1"><i class="fa-solid fa-rotate-right"></i><span>রিফ্রেশ</span></button>
                 </div>
 
-                <div id="users-list" class="space-y-2.5">
+                <div id="users-list" class="space-y-3">
                     <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
-
             </div>
 
-            <!-- 📡 নতুন ট্যাব: সংযুক্ত চ্যানেল ও গ্রুপ হাব -->
+            <!-- 📡 TAB 3: সংযুক্ত চ্যানেল ও গ্রুপ হাব -->
             <div id="tab-channels-hub" class="tab-content space-y-4">
-                <div class="bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-indigo-500/20 border border-sky-500/30 rounded-2xl p-4 flex items-center justify-between">
+                <div class="bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-indigo-500/20 border border-sky-500/30 rounded-3xl p-4 flex items-center justify-between shadow-lg">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400 text-lg"><i class="fa-solid fa-tower-broadcast"></i></div>
+                        <div class="w-11 h-11 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-tower-broadcast"></i></div>
                         <div>
                             <h3 class="font-black text-sm text-white">সংযুক্ত চ্যানেল ও গ্রুপ</h3>
-                            <p class="text-[10px] text-sky-300 font-bold">ইউজাররা কোন কোন চ্যানেল বটে অ্যাড করেছে</p>
+                            <p class="text-[10px] text-sky-300 font-bold">ইউজাররা যে যে চ্যানেল ও গ্রুপ বটে কানেক্ট করেছে</p>
                         </div>
                     </div>
-                    <button onclick="loadChannelsHub()" class="text-xs font-black text-[#0088CC]"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadChannelsHub()" class="px-3 py-1.5 bg-[#0B1120] border border-sky-500/30 rounded-xl text-xs font-black text-sky-400 active:scale-95"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
-                <div id="channels-hub-list" class="space-y-2.5">
+                <div id="channels-hub-list" class="space-y-3">
                     <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
             </div>
 
-            <!-- লিডারবোর্ড ট্যাব -->
+            <!-- 🏆 TAB 4: লিডারবোর্ড -->
             <div id="tab-leaderboard" class="tab-content space-y-4">
-
-                <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-2xl p-5">
+                <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-3xl p-5 shadow-lg flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-2xl">🏆</div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl shadow-inner">🏆</div>
                         <div>
-                            <h3 class="font-black text-base text-white">লিডারবোর্ড</h3>
-                            <p class="text-[11px] text-amber-400 font-bold">সবচেয়ে বেশি পোস্টকারী টপ ১০ ইউজার</p>
+                            <h3 class="font-black text-base text-white">টপ লিডারবোর্ড</h3>
+                            <p class="text-[11px] text-amber-400 font-bold">সবচেয়ে বেশি পোস্টকারী সেরা ১০ ইউজার</p>
                         </div>
                     </div>
+                    <button onclick="loadLeaderboard()" class="text-xs font-black text-amber-400 bg-black/25 px-3 py-1.5 rounded-xl border border-amber-500/20"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
-                <div class="flex justify-end">
-                    <button onclick="loadLeaderboard()" class="text-xs font-black text-[#0088CC]"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
-                </div>
-
-                <div id="leaderboard-list" class="space-y-2.5">
+                <div id="leaderboard-list" class="space-y-3">
                     <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
-
             </div>
 
-            <!-- 📢 গ্যালারি আপলোডসহ রিচ ব্রডকাস্ট ট্যাব -->
+            <!-- 📢 TAB 5: ব্রডকাস্ট স্টুডিও -->
             <div id="tab-broadcast" class="tab-content space-y-4">
-
-                <div class="glass rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center space-x-3 pb-3 border-b border-[#233554]">
-                        <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center"><i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i></div>
+                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
+                    <div class="flex items-center space-x-3 pb-3 border-b border-sky-500/10">
+                        <div class="w-11 h-11 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bullhorn"></i></div>
                         <div>
                             <h3 class="font-black text-sm text-white">📢 সব ইউজারকে ব্রডকাস্ট পাঠান</h3>
-                            <p class="text-[10px] text-gray-500 font-bold">গ্যালারি থেকে ফটো/ভিডিও ও বাটনসহ মেসেজ পাঠান</p>
+                            <p class="text-[10px] text-gray-400 font-bold">গ্যালারি থেকে ফটো/ভিডিও ও ক্লিকযোগ্য বাটনসহ মেসেজ দিন</p>
                         </div>
                     </div>
 
-                    <!-- 🖼️ গ্যালারি থেকে সরাসরি ফটো/ভিডিও সিলেক্ট করার বক্স -->
-                    <div class="space-y-2 bg-[#0B1120] p-3 rounded-2xl border border-[#233554]">
-                        <label class="text-xs font-black text-sky-400 block">🖼️ গ্যালারি থেকে ফাইল নির্বাচন (ঐচ্ছিক):</label>
+                    <!-- 🖼️ গ্যালারি ফটো আপলোড বক্স -->
+                    <div class="bg-[#0B1120] p-3.5 rounded-2xl border border-sky-500/20 space-y-2">
+                        <label class="text-xs font-black text-sky-400 flex items-center space-x-1.5">
+                            <i class="fa-regular fa-images"></i>
+                            <span>গ্যালারি থেকে মিডিয়া নির্বাচন (ঐচ্ছিক):</span>
+                        </label>
                         <div class="flex items-center space-x-2">
                             <input type="file" id="bc-file-input" accept="image/*,video/*,audio/*,.pdf,.zip" class="hidden" onchange="handleBroadcastFile(event)">
-                            <button type="button" onclick="document.getElementById('bc-file-input').click()" class="flex-1 py-2.5 bg-[#0088CC]/20 border border-[#0088CC]/40 rounded-xl text-xs font-black text-[#0088CC] flex items-center justify-center space-x-2 active:scale-95 transition">
-                                <i class="fa-regular fa-image text-sm"></i>
+                            <button type="button" onclick="document.getElementById('bc-file-input').click()" class="flex-1 py-3 bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 rounded-2xl text-xs font-black text-sky-300 flex items-center justify-center space-x-2 active:scale-95 transition">
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                                 <span id="bc-file-label">গ্যালারি থেকে ফটো / ভিডিও বেছে নিন</span>
                             </button>
-                            <button type="button" onclick="removeBroadcastFile()" id="bc-remove-file-btn" class="hidden px-3 py-2.5 bg-red-500/20 border border-red-500/40 text-red-400 rounded-xl text-xs font-black active:scale-95 transition">
+                            <button type="button" onclick="removeBroadcastFile()" id="bc-remove-file-btn" class="hidden px-3.5 py-3 bg-red-500/20 border border-red-500/40 text-red-400 rounded-2xl text-xs font-black active:scale-95 transition">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- ক্যাপশন / টেক্সট -->
+                    <!-- টেক্সট / ক্যাপশন -->
                     <div class="space-y-1.5">
-                        <label class="text-xs font-black text-gray-400">মেসেজ / ক্যাপশন লিখুন (HTML সাপোর্টেড):</label>
-                        <textarea id="broadcast-text" rows="4" placeholder="যেমন: ✅ নতুন আপডেট এসেছে! আজ থেকে নতুন ফিচার ব্যবহার করুন।&#10;&#10;<b>বোল্ড</b>, <i>ইটালিক</i>, <code>কোড</code> সাপোর্টেড।" class="w-full rounded-2xl px-4 py-3 text-xs font-medium resize-none leading-relaxed"></textarea>
+                        <label class="text-xs font-black text-gray-400">ক্যাপশন / মূল বার্তা (HTML সাপোর্টেড):</label>
+                        <textarea id="broadcast-text" rows="4" placeholder="যেমন: ✅ নতুন আপডেট এসেছে! আজ থেকে নতুন ফিচার ব্যবহার করুন।&#10;&#10;<b>বোল্ড</b>, <i>ইটালিক</i>, <code>কোড</code> সাপোর্টেড।" class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed shadow-inner"></textarea>
                     </div>
 
-                    <!-- 🔘 কাস্টম বাটন (চ্যানেল লিংক বা ওয়েবসাইট বাটন) -->
-                    <div class="bg-[#0B1120] p-3 rounded-2xl space-y-2 border border-[#233554]">
-                        <span class="text-xs font-black text-amber-400 block">🔗 ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক)</span>
+                    <!-- 🔘 কাস্টম বাটন -->
+                    <div class="bg-[#0B1120] p-3.5 rounded-2xl space-y-2 border border-sky-500/20">
+                        <span class="text-xs font-black text-amber-400 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-link"></i>
+                            <span>ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক)</span>
+                        </span>
                         <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="bc-btn-text" placeholder="বাটনের নাম (যেমন: Join Channel)" class="rounded-xl px-3 py-2 text-xs font-bold">
-                            <input type="url" id="bc-btn-url" placeholder="লিংক (যেমন: https://t.me/...)" class="rounded-xl px-3 py-2 text-xs font-bold">
+                            <input type="text" id="bc-btn-text" placeholder="বাটনের নাম (যেমন: Join Channel)" class="rounded-xl px-3 py-2.5 text-xs font-bold">
+                            <input type="url" id="bc-btn-url" placeholder="লিংক (যেমন: https://t.me/...)" class="rounded-xl px-3 py-2.5 text-xs font-bold">
                         </div>
                     </div>
 
                     <!-- 📌 অটো পিন সুইচ -->
                     <div class="flex items-center justify-between pt-1">
-                        <label class="flex items-center space-x-2 cursor-pointer">
+                        <label class="flex items-center space-x-2.5 cursor-pointer">
                             <input type="checkbox" id="bc-pin-msg" class="w-4 h-4 accent-[#0088CC] rounded">
-                            <span class="text-xs font-bold text-gray-300">📌 ইউজারের চ্যাটে মেসেজটি অটো-পিন করুন</span>
+                            <span class="text-xs font-black text-gray-300">📌 ইউজারের চ্যাটে মেসেজটি অটো-পিন করুন</span>
                         </label>
                     </div>
 
-                    <div class="flex items-center justify-between pt-2 border-t border-[#233554]">
-                        <p class="text-[11px] text-gray-500 font-bold" id="broadcast-user-count">মোট ০ জন ইউজার পাবে</p>
-                        <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-primary px-6 py-2.5 rounded-xl text-sm font-black text-white flex items-center space-x-2 active:scale-95">
+                    <div class="flex items-center justify-between pt-2 border-t border-sky-500/10">
+                        <p class="text-[11px] text-gray-400 font-bold" id="broadcast-user-count">মোট ০ জন ইউজার পাবে</p>
+                        <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-gradient-blue px-7 py-3 rounded-2xl text-xs font-black text-white flex items-center space-x-2 active:scale-95 shadow-lg">
                             <i class="fa-solid fa-paper-plane"></i>
                             <span>পাঠান</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- ব্রডকাস্ট হিস্ট্রি -->
-                <div class="glass rounded-2xl p-5 space-y-3">
-                    <h4 class="font-black text-sm text-white">📋 পাঠানো মেসেজের ইতিহাস</h4>
-                    <div id="broadcast-history" class="space-y-2">
+                <!-- 📋 পাঠানো মেসেজের ইতিহাস (ক্লিয়ার বাটনসহ) -->
+                <div class="glass-card rounded-3xl p-5 space-y-3">
+                    <div class="flex items-center justify-between border-b border-sky-500/10 pb-3">
+                        <h4 class="font-black text-xs text-white uppercase tracking-wider flex items-center space-x-1.5">
+                            <i class="fa-solid fa-clock-rotate-left text-pink-400"></i>
+                            <span>পাঠানো মেসেজের ইতিহাস</span>
+                        </h4>
+                        <!-- 🗑️ হিস্ট্রি ক্লিয়ার বাটন -->
+                        <button onclick="clearBroadcastHistory()" class="px-3 py-1.5 bg-red-500/15 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-xl text-[11px] font-black active:scale-95 transition flex items-center space-x-1">
+                            <i class="fa-solid fa-trash-can text-[10px]"></i>
+                            <span>সব মুছুন</span>
+                        </button>
+                    </div>
+                    <div id="broadcast-history" class="space-y-2 pt-1">
                         <p class="text-xs text-gray-500 font-bold text-center py-4">কোনো ব্রডকাস্ট ইতিহাস নেই</p>
                     </div>
                 </div>
-
             </div>
 
-            <!-- পোস্ট লগ ট্যাব -->
+            <!-- 📜 TAB 6: পোস্ট লগ -->
             <div id="tab-logs" class="tab-content space-y-4">
-
-                <div class="glass rounded-2xl p-4 flex items-center justify-between">
+                <div class="glass-card rounded-3xl p-4 flex items-center justify-between">
                     <div>
                         <h3 class="font-black text-sm text-white">📋 পোস্ট অ্যাক্টিভিটি লগ</h3>
-                        <p class="text-[10px] text-gray-500 font-bold">কে কখন কোথায় পোস্ট করেছে</p>
+                        <p class="text-[10px] text-gray-400 font-bold">কে কখন কোথায় পোস্ট করেছে তার লাইভ হিসেব</p>
                     </div>
-                    <button onclick="loadLogs()" class="text-xs font-black text-[#0088CC]"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadLogs()" class="text-xs font-black text-sky-400"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
-
                 <div id="logs-list" class="space-y-2.5">
                     <p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>
                 </div>
-
             </div>
 
-            <!-- নোটিস বোর্ড ট্যাব -->
+            <!-- 📌 TAB 7: নোটিস বোর্ড -->
             <div id="tab-notice" class="tab-content space-y-4">
-
-                <div class="notice-card rounded-2xl p-5 space-y-4">
+                <div class="glass-card rounded-3xl p-5 space-y-4 border border-amber-500/30 shadow-xl">
                     <div class="flex items-center space-x-3 pb-3 border-b border-amber-500/20">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center"><i class="fa-solid fa-bell text-amber-400 text-lg"></i></div>
+                        <div class="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bell"></i></div>
                         <div>
-                            <h3 class="font-black text-sm text-white">📌 নোটিস বোর্ড</h3>
-                            <p class="text-[10px] text-gray-500 font-bold">সব ইউজার অ্যাপ খুললে এই নোটিসটি দেখবে</p>
+                            <h3 class="font-black text-sm text-white">📌 গ্লোবাল নোটিস বোর্ড</h3>
+                            <p class="text-[10px] text-amber-300 font-bold">সব ইউজার অ্যাপ খুললে হোমপেজে এই নোটিসটি দেখবে</p>
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-gray-400">নোটিসের শিরোনাম:</label>
-                        <input type="text" id="notice-title" placeholder="যেমন: গুরুত্বপূর্ণ আপডেট!" class="w-full rounded-xl px-3.5 py-2.5 text-sm font-bold">
+                        <input type="text" id="notice-title" placeholder="যেমন: গুরুত্বপূর্ণ আপডেট!" class="w-full rounded-2xl px-4 py-2.5 text-xs font-bold">
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-black text-gray-400">নোটিসের বিস্তারিত:</label>
-                        <textarea id="notice-body" rows="4" placeholder="ইউজারদের জন্য গুরুত্বপূর্ণ তথ্য লিখুন..." class="w-full rounded-2xl px-4 py-3 text-sm font-medium resize-none leading-relaxed"></textarea>
+                        <label class="text-xs font-black text-gray-400">নোটিসের বিস্তারিত বিবরণ:</label>
+                        <textarea id="notice-body" rows="3" placeholder="ইউজারদের জন্য প্রয়োজনীয় তথ্য লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed"></textarea>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <select id="notice-type" class="rounded-xl px-3 py-2.5 text-sm font-black">
-                            <option value="info">ℹ️ তথ্য</option>
-                            <option value="warning">⚠️ সতর্কতা</option>
-                            <option value="success">✅ সফলতা</option>
-                            <option value="error">🚫 জরুরি</option>
+                        <select id="notice-type" class="rounded-2xl px-3.5 py-2.5 text-xs font-black">
+                            <option value="info">ℹ️ তথ্যমূলক (Blue)</option>
+                            <option value="warning">⚠️ সতর্কতা (Yellow)</option>
+                            <option value="success">✅ সফল বার্তা (Green)</option>
+                            <option value="error">🚫 জরুরি অ্যালার্ট (Red)</option>
                         </select>
-                        <button onclick="saveNotice()" id="save-notice-btn" class="btn-primary py-2.5 rounded-xl text-sm font-black text-white active:scale-95">
-                            <i class="fa-solid fa-save mr-1"></i>নোটিস সেভ করুন
+                        <button onclick="saveNotice()" id="save-notice-btn" class="btn-gradient-blue py-2.5 rounded-2xl text-xs font-black text-white active:scale-95 shadow-lg">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i>নোটিস সেভ করুন
                         </button>
                     </div>
                 </div>
 
-                <!-- বর্তমান নোটিস প্রিভিউ -->
-                <div class="glass rounded-2xl p-5 space-y-3">
-                    <h4 class="font-black text-sm text-white">👁️ বর্তমান নোটিস প্রিভিউ</h4>
+                <!-- প্রিভিউ -->
+                <div class="glass-card rounded-3xl p-5 space-y-3">
+                    <h4 class="font-black text-xs text-white uppercase tracking-wider">👁️ বর্তমান নোটিস প্রিভিউ</h4>
                     <div id="current-notice-preview">
                         <p class="text-xs text-gray-500 font-bold text-center py-4">কোনো নোটিস সেট করা নেই</p>
                     </div>
-                    <button onclick="clearNotice()" id="clear-notice-btn" class="hidden w-full btn-danger py-2.5 rounded-xl text-sm font-black text-white active:scale-95">
-                        <i class="fa-solid fa-trash mr-1"></i>নোটিস মুছুন
+                    <button onclick="clearNotice()" id="clear-notice-btn" class="hidden w-full btn-gradient-red py-2.5 rounded-2xl text-xs font-black text-white active:scale-95">
+                        <i class="fa-solid fa-trash-can mr-1"></i>নোটিস মুছে ফেলুন
                     </button>
                 </div>
-
             </div>
 
-            <!-- সিস্টেম ট্যাব -->
+            <!-- ⚙️ TAB 8: সিস্টেম সেটিংস -->
             <div id="tab-settings" class="tab-content space-y-4">
-
-                <!-- সিস্টেম ইনফো -->
-                <div class="glass rounded-2xl p-5 space-y-4">
-                    <h3 class="font-black text-sm text-white">⚙️ সিস্টেম ইনফো</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-[#0B1120] rounded-xl p-3 space-y-1">
-                            <p class="text-[10px] text-gray-500 font-bold">Worker URL</p>
-                            <p class="text-xs font-black text-[#0088CC] truncate">post.myalorhawa.workers.dev</p>
+                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
+                    <h3 class="font-black text-sm text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-server text-sky-400"></i>
+                        <span>সিস্টেম ইনফরমেশন</span>
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
+                            <p class="text-[10px] text-gray-400 font-bold">Worker API URL</p>
+                            <p class="text-xs font-black text-sky-400 truncate">post.myalorhawa.workers.dev</p>
                         </div>
-                        <div class="bg-[#0B1120] rounded-xl p-3 space-y-1">
-                            <p class="text-[10px] text-gray-500 font-bold">KV Storage</p>
+                        <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
+                            <p class="text-[10px] text-gray-400 font-bold">KV Storage</p>
                             <p class="text-xs font-black text-emerald-400">POSTBOT — সক্রিয়</p>
                         </div>
-                        <div class="bg-[#0B1120] rounded-xl p-3 space-y-1">
-                            <p class="text-[10px] text-gray-500 font-bold">Webhook স্ট্যাটাস</p>
+                        <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
+                            <p class="text-[10px] text-gray-400 font-bold">Webhook স্ট্যাটাস</p>
                             <p class="text-xs font-black text-emerald-400" id="webhook-status">চেক করা হচ্ছে...</p>
                         </div>
-                        <div class="bg-[#0B1120] rounded-xl p-3 space-y-1">
-                            <p class="text-[10px] text-gray-500 font-bold">দৈনিক রিপোর্ট</p>
+                        <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
+                            <p class="text-[10px] text-gray-400 font-bold">দৈনিক রিপোর্ট</p>
                             <p class="text-xs font-black text-amber-400">প্রতিদিন রাত ১২টায়</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ম্যানুয়াল অ্যাকশন -->
-                <div class="glass rounded-2xl p-5 space-y-3">
-                    <h3 class="font-black text-sm text-white">🛠️ ম্যানুয়াল অ্যাকশন</h3>
+                <div class="glass-card rounded-3xl p-5 space-y-3 shadow-xl">
+                    <h3 class="font-black text-sm text-white">🛠️ ম্যানুয়াল কমান্ড ও টুলস</h3>
                     <div class="space-y-2">
-                        <button onclick="sendManualReport()" class="w-full bg-[#0B1120] border border-[#233554] hover:border-[#0088CC] py-3 rounded-xl text-sm font-black text-gray-300 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
-                            <i class="fa-solid fa-chart-bar text-[#0088CC]"></i>
-                            <span>এখনই ডেইলি রিপোর্ট পাঠান</span>
+                        <button onclick="sendManualReport()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-sky-400 py-3 rounded-2xl text-xs font-black text-gray-200 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                            <i class="fa-solid fa-chart-pie text-sky-400 text-base"></i>
+                            <span>এখনই টেলিগ্রামে ডেইলি রিপোর্ট পাঠান</span>
                         </button>
-                        <button onclick="checkWebhook()" class="w-full bg-[#0B1120] border border-[#233554] hover:border-emerald-500 py-3 rounded-xl text-sm font-black text-gray-300 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
-                            <i class="fa-solid fa-plug text-emerald-400"></i>
-                            <span>Webhook স্ট্যাটাস চেক করুন</span>
+                        <button onclick="checkWebhook()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-emerald-400 py-3 rounded-2xl text-xs font-black text-gray-200 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                            <i class="fa-solid fa-plug text-emerald-400 text-base"></i>
+                            <span>Webhook স্ট্যাটাস রিফ্রেশ করুন</span>
                         </button>
-                        <button onclick="if(confirm('সব ডেটা মুছে ফেলতে চান? এটা পূর্বাবস্থায় ফেরানো যাবে না!')) clearAllData()" class="w-full bg-[#0B1120] border border-[#233554] hover:border-red-500 py-3 rounded-xl text-sm font-black text-red-400 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
-                            <i class="fa-solid fa-trash-can text-red-400"></i>
-                            <span>সব KV ডেটা মুছুন (সাবধান!)</span>
+                        <button onclick="if(confirm('সব ডেটা মুছে ফেলতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না!')) clearAllData()" class="w-full bg-[#0B1120] border border-red-500/25 hover:border-red-500 py-3 rounded-2xl text-xs font-black text-red-400 text-left px-4 flex items-center space-x-3 active:scale-98 transition">
+                            <i class="fa-solid fa-trash-can text-red-500 text-base"></i>
+                            <span>সব KV ডেটা রিসেট করুন (সাবধান!)</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Developer Info -->
-                <div class="glass rounded-2xl p-5 text-center space-y-2">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/10 flex items-center justify-center"><i class="fa-solid fa-crown text-amber-400 text-xl"></i></div>
+                <!-- ডেভেলপার কার্ড -->
+                <div class="glass-card rounded-3xl p-5 text-center space-y-2 border border-amber-500/20">
+                    <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-crown"></i></div>
                     <h4 class="font-black text-sm text-white">রাকিব হাসান</h4>
-                    <p class="text-[10px] text-gray-500 font-bold">Easy Poster Bot Developer</p>
-                    <div class="flex items-center justify-center space-x-1"><i class="fa-solid fa-circle-check text-[#0088CC] text-[10px]"></i><span class="text-[10px] text-[#0088CC] font-bold">Verified Official Creator</span></div>
+                    <p class="text-[10px] text-gray-400 font-bold">Easy Poster Bot Official Creator</p>
+                    <div class="flex items-center justify-center space-x-1.5 pt-0.5">
+                        <i class="fa-solid fa-circle-check text-sky-400 text-[10px]"></i>
+                        <span class="text-[10px] text-sky-400 font-black">Verified Official Developer</span>
+                    </div>
                 </div>
-
             </div>
 
         </div>
@@ -464,7 +574,7 @@
 
     <!-- টোস্ট নোটিফিকেশন -->
     <div id="toast" class="fixed bottom-6 right-4 z-50 hidden">
-        <div class="glass rounded-2xl px-4 py-3 flex items-center space-x-2.5 shadow-2xl animate-fade">
+        <div class="glass rounded-2xl px-4 py-3 flex items-center space-x-2.5 shadow-2xl border border-sky-400/40 animate-fade">
             <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
             <p id="toast-msg" class="text-xs font-black text-white"></p>
         </div>
@@ -487,10 +597,10 @@
                 users: ['ইউজার ম্যানেজমেন্ট', 'সব ইউজারের তালিকা'],
                 'channels-hub': ['সংযুক্ত চ্যানেল ও গ্রুপ', 'ইউজারদের অ্যাড করা চ্যানেল ও গ্রুপ'],
                 leaderboard: ['লিডারবোর্ড', 'সবচেয়ে বেশি পোস্টকারী'],
-                broadcast: ['ব্রডকাস্ট', 'সব ইউজারকে মেসেজ পাঠান'],
+                broadcast: ['ব্রডকাস্ট স্টুডিও', 'সব ইউজারকে মেসেজ পাঠান'],
                 logs: ['পোস্ট লগ', 'সব পোস্ট অ্যাক্টিভিটি'],
                 notice: ['নোটিস বোর্ড', 'ইউজারদের জন্য নোটিস'],
-                settings: ['সিস্টেম', 'কনফিগারেশন ও টুলস']
+                settings: ['সিস্টেম কন্ট্রোল', 'কনফিগারেশন ও টুলস']
             };
             document.getElementById('page-title').innerText = titles[tabName][0];
             document.getElementById('page-subtitle').innerText = titles[tabName][1];
@@ -527,7 +637,7 @@
             const file = e.target.files[0];
             if (file) {
                 selectedBroadcastFile = file;
-                document.getElementById('bc-file-label').innerText = `✅ সিলেক্টেড: ${file.name.substring(0, 20)}...`;
+                document.getElementById('bc-file-label').innerText = `✅ নির্বাচিত: ${file.name.substring(0, 20)}...`;
                 document.getElementById('bc-remove-file-btn').classList.remove('hidden');
             }
         }
@@ -576,15 +686,15 @@
                             const u = allUsersCache[id];
                             const joinDate = new Date(u.joined).toLocaleDateString('bn-BD');
                             recentList.innerHTML += `
-                                <div class="flex items-center space-x-3 py-2 border-b border-[#233554]/50 last:border-0">
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
+                                <div class="flex items-center space-x-3 py-2 border-b border-sky-500/10 last:border-0">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs shrink-0 overflow-hidden shadow">
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
-                                        <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id} • যোগ: ${joinDate}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id} • যোগ: ${joinDate}</p>
                                     </div>
-                                    <span class="text-xs font-black text-[#0088CC]">${u.postCount || 0} পোস্ট</span>
+                                    <span class="text-xs font-black text-sky-400">${u.postCount || 0} পোস্ট</span>
                                 </div>
                             `;
                         });
@@ -601,16 +711,16 @@
                         top3.forEach((id, i) => {
                             const u = allUsersCache[id];
                             top3List.innerHTML += `
-                                <div class="flex items-center space-x-3 py-2 border-b border-[#233554]/50 last:border-0">
-                                    <span class="text-xl w-8 text-center flex-shrink-0">${medals[i]}</span>
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
+                                <div class="flex items-center space-x-3 py-2 border-b border-sky-500/10 last:border-0">
+                                    <span class="text-lg w-7 text-center shrink-0">${medals[i]}</span>
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs shrink-0 overflow-hidden shadow">
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-black text-white truncate">${u.name || 'User'}</p>
-                                        <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
-                                    <span class="text-sm font-black text-amber-400">${u.postCount || 0}</span>
+                                    <span class="text-xs font-black text-amber-400">${u.postCount || 0} পোস্ট</span>
                                 </div>
                             `;
                         });
@@ -621,7 +731,7 @@
             }
         }
 
-        // ইউজার লিস্ট লোড
+        // ইউজার লিস্ট
         async function loadUsers(users = null) {
             const container = document.getElementById('users-list');
             const label = document.getElementById('users-count-label');
@@ -647,32 +757,32 @@
                 const lastSeen = new Date(u.lastSeen).toLocaleDateString('bn-BD');
                 const channels = u.channels && u.channels.length > 0 ? u.channels.join(', ') : 'তথ্য নেই';
                 const card = document.createElement('div');
-                card.className = 'user-card rounded-2xl p-4 space-y-3';
+                card.className = 'glass-card rounded-3xl p-4 space-y-3';
                 card.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0 overflow-hidden">
+                        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm shrink-0 overflow-hidden shadow-md">
                             ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
-                            <p class="text-[10px] text-gray-500 font-bold truncate">${u.username ? '@'+u.username : 'ইউজারনেম নেই'}</p>
+                            <p class="text-[10px] text-gray-400 font-bold truncate">${u.username ? '@'+u.username : 'ইউজারনেম নেই'}</p>
                         </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="text-lg font-black text-[#0088CC]">${u.postCount || 0}</p>
-                            <p class="text-[9px] text-gray-500 font-bold">পোস্ট</p>
+                        <div class="text-right shrink-0">
+                            <p class="text-lg font-black text-sky-400">${u.postCount || 0}</p>
+                            <p class="text-[9px] text-gray-400 font-bold uppercase">পোস্ট</p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-[10px] font-bold text-gray-500 bg-[#0B1120] rounded-xl p-2.5">
+                    <div class="grid grid-cols-2 gap-2 text-[10px] font-bold text-gray-400 bg-[#0B1120] rounded-2xl p-2.5 border border-sky-500/10">
                         <span>🆔 ${id}</span>
                         <span>📅 যোগ: ${joinDate}</span>
                         <span>👁️ শেষ: ${lastSeen}</span>
                         <span class="truncate">🤖 ${channels}</span>
                     </div>
                     <div class="flex space-x-2">
-                        <button onclick="sendDirectMessage('${id}','${(u.name || 'User').replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-[#0088CC]/20 border border-[#0088CC]/30 rounded-xl text-xs font-black text-[#0088CC] active:scale-95 transition">
+                        <button onclick="sendDirectMessage('${id}','${(u.name || 'User').replace(/'/g,"\\'")}');" class="flex-1 py-2 bg-sky-500/15 border border-sky-500/30 rounded-xl text-xs font-black text-sky-300 active:scale-95 transition">
                             <i class="fa-solid fa-message mr-1"></i>মেসেজ পাঠান
                         </button>
-                        <button onclick="copyToClipboard('${id}')" class="px-3 py-2 bg-[#162032] border border-[#233554] rounded-xl text-xs font-black text-gray-400 active:scale-95 transition">
+                        <button onclick="copyToClipboard('${id}')" class="px-3.5 py-2 bg-[#0B1120] border border-sky-500/20 rounded-xl text-xs font-black text-gray-400 active:scale-95 transition">
                             <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>
@@ -681,7 +791,7 @@
             });
         }
 
-        // 📡 সংযুক্ত চ্যানেল ও গ্রুপ হাব লোড
+        // 📡 সংযুক্ত চ্যানেল ও গ্রুপ হাব
         async function loadChannelsHub() {
             const container = document.getElementById('channels-hub-list');
             container.innerHTML = '<p class="text-xs text-gray-500 font-bold text-center py-8">লোড হচ্ছে...</p>';
@@ -706,8 +816,7 @@
                                 userName: u.name || 'User',
                                 userUsername: u.username || '',
                                 userPhoto: u.photo || '',
-                                userPosts: u.postCount || 0,
-                                lastSeen: u.lastSeen
+                                userPosts: u.postCount || 0
                             });
                         });
                     }
@@ -722,19 +831,19 @@
                 allChannelsList.forEach(item => {
                     const isUsername = item.channel.startsWith('@');
                     const card = document.createElement('div');
-                    card.className = 'glass rounded-2xl p-4 space-y-3 border border-sky-500/30';
+                    card.className = 'glass-card rounded-3xl p-4 space-y-3 border border-sky-500/25';
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg shrink-0">
+                            <div class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg shrink-0 shadow">
                                 <i class="fa-solid fa-bullhorn"></i>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h4 class="text-sm font-black text-white truncate">${item.channel}</h4>
                                 <p class="text-[10px] text-sky-400 font-bold">অ্যাড করা চ্যানেল / গ্রুপ</p>
                             </div>
-                            ${isUsername ? `<a href="https://t.me/${item.channel.replace('@','')}" target="_blank" class="px-3 py-1.5 bg-[#0088CC] text-white rounded-xl text-xs font-black shrink-0 active:scale-95"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
+                            ${isUsername ? `<a href="https://t.me/${item.channel.replace('@','')}" target="_blank" class="px-3.5 py-1.5 btn-gradient-blue text-white rounded-xl text-xs font-black shrink-0 active:scale-95"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
                         </div>
-                        <div class="bg-[#0B1120] p-2.5 rounded-xl flex items-center justify-between text-[11px] font-bold">
+                        <div class="bg-[#0B1120] p-2.5 rounded-2xl flex items-center justify-between text-[11px] font-bold border border-sky-500/10">
                             <div class="flex items-center space-x-2 truncate">
                                 <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[9px] overflow-hidden shrink-0">
                                     ${item.userPhoto ? `<img src="${item.userPhoto}" class="w-full h-full object-cover">` : (item.userName.charAt(0).toUpperCase())}
@@ -782,21 +891,21 @@
                     const medalBg = ['medal-1','medal-2','medal-3'];
                     data.leaderboard.forEach((u, i) => {
                         const card = document.createElement('div');
-                        card.className = 'user-card rounded-2xl p-4 flex items-center space-x-3';
+                        card.className = 'glass-card rounded-3xl p-4 flex items-center space-x-3';
                         card.innerHTML = `
-                            <div class="w-9 h-9 rounded-full ${i < 3 ? medalBg[i] : 'bg-[#162032] border border-[#233554]'} flex items-center justify-center font-black flex-shrink-0 text-sm">
-                                ${i < 3 ? medals[i] : `<span class="text-gray-400">${i+1}</span>`}
+                            <div class="w-9 h-9 rounded-2xl ${i < 3 ? medalBg[i] : 'bg-[#0B1120] border border-sky-500/20 text-gray-400'} flex items-center justify-center font-black shrink-0 text-sm">
+                                ${i < 3 ? medals[i] : (i+1)}
                             </div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0 overflow-hidden">
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-sm shrink-0 overflow-hidden shadow">
                                 ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-black text-white truncate">${u.name || 'User'}</p>
-                                <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : u.id}</p>
+                                <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : u.id}</p>
                             </div>
-                            <div class="text-right flex-shrink-0">
-                                <p class="text-xl font-black ${i===0?'text-amber-400':i===1?'text-gray-300':i===2?'text-amber-600':'text-[#0088CC]'}">${u.postCount || 0}</p>
-                                <p class="text-[9px] text-gray-500 font-bold">পোস্ট</p>
+                            <div class="text-right shrink-0">
+                                <p class="text-xl font-black ${i===0?'text-amber-400':i===1?'text-slate-200':i===2?'text-amber-600':'text-sky-400'}">${u.postCount || 0}</p>
+                                <p class="text-[9px] text-gray-400 font-bold uppercase">পোস্ট</p>
                             </div>
                         `;
                         container.appendChild(card);
@@ -812,7 +921,7 @@
             document.getElementById('broadcast-user-count').innerText = `মোট ${count} জন ইউজার পাবে`;
         }
 
-        // 📢 গ্যালারি ফাইল বা টেক্সটসহ ব্রডকাস্ট পাঠানো
+        // ব্রডকাস্ট পাঠানো
         async function sendBroadcast() {
             const msg = document.getElementById('broadcast-text').value.trim();
             const btnText = document.getElementById('bc-btn-text').value.trim();
@@ -894,7 +1003,7 @@
                     sent: sent,
                     time: new Date().toLocaleString('bn-BD')
                 });
-                localStorage.setItem('broadcast_history', JSON.stringify(history.slice(0, 10)));
+                localStorage.setItem('broadcast_history', JSON.stringify(history.slice(0, 20)));
                 document.getElementById('broadcast-text').value = '';
                 document.getElementById('bc-btn-text').value = '';
                 document.getElementById('bc-btn-url').value = '';
@@ -911,15 +1020,23 @@
             container.innerHTML = '';
             history.forEach(h => {
                 container.innerHTML += `
-                    <div class="log-item rounded-xl p-3 space-y-1">
-                        <p class="text-xs font-bold text-gray-300 truncate">${h.msg}${h.msg.length >= 80 ? '...' : ''}</p>
-                        <div class="flex items-center justify-between text-[10px] font-bold text-gray-500">
-                            <span>📤 ${h.sent} জনকে পাঠানো হয়েছে</span>
+                    <div class="log-item rounded-2xl p-3.5 space-y-1.5 border border-sky-500/10 shadow-sm">
+                        <p class="text-xs font-bold text-gray-200 truncate">${h.msg}</p>
+                        <div class="flex items-center justify-between text-[10px] font-bold text-gray-400">
+                            <span class="text-emerald-400">📤 ${h.sent} জনকে পাঠানো হয়েছে</span>
                             <span>${h.time}</span>
                         </div>
                     </div>
                 `;
             });
+        }
+
+        // 🗑️ ব্রডকাস্ট হিস্ট্রি ক্লিয়ার ফাংশন
+        function clearBroadcastHistory() {
+            if (!confirm('আপনি কি সব ব্রডকাস্ট হিস্ট্রি মুছে ফেলতে চান?')) return;
+            localStorage.removeItem('broadcast_history');
+            loadBroadcastHistory();
+            showToast('ব্রডকাস্ট হিস্ট্রি মুছে ফেলা হয়েছে!');
         }
 
         // পোস্ট লগ
@@ -939,18 +1056,18 @@
                         const u = users[id];
                         const channels = u.channels && u.channels.length > 0 ? u.channels.join(', ') : 'তথ্য নেই';
                         container.innerHTML += `
-                            <div class="log-item rounded-xl p-3.5 space-y-2">
+                            <div class="log-item rounded-2xl p-3.5 space-y-2 border border-sky-500/15">
                                 <div class="flex items-center space-x-2.5">
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs flex-shrink-0 overflow-hidden">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-black text-xs shrink-0 overflow-hidden shadow">
                                         ${u.photo ? `<img src="${u.photo}" class="w-full h-full object-cover" onerror="this.parentElement.innerText='${(u.name || 'U').charAt(0).toUpperCase()}'">` : (u.name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-black text-white">${u.name || 'User'}</p>
-                                        <p class="text-[10px] text-gray-500 font-bold">${u.username ? '@'+u.username : id}</p>
+                                        <p class="text-[10px] text-gray-400 font-bold">${u.username ? '@'+u.username : id}</p>
                                     </div>
-                                    <span class="text-xs font-black text-[#0088CC]">${u.postCount || 0} পোস্ট</span>
+                                    <span class="text-xs font-black text-sky-400">${u.postCount || 0} পোস্ট</span>
                                 </div>
-                                <div class="text-[10px] font-bold text-gray-500 space-y-0.5">
+                                <div class="text-[10px] font-bold text-gray-400 space-y-0.5 bg-[#0B1120] p-2 rounded-xl">
                                     <p>🤖 চ্যানেল: ${channels}</p>
                                     <p>⏰ শেষ অ্যাক্টিভ: ${new Date(u.lastSeen).toLocaleString('bn-BD')}</p>
                                 </div>
@@ -961,7 +1078,7 @@
             } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
-        // ক্লাউড নোটিস সেভ
+        // ক্লাউড নোটিস
         async function saveNotice() {
             const title = document.getElementById('notice-title').value.trim();
             const body = document.getElementById('notice-body').value.trim();
@@ -990,7 +1107,7 @@
             } catch(e) {
                 showToast('সার্ভার সংযোগ সমস্যা', 'error');
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-save mr-1"></i>নোটিস সেভ করুন';
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk mr-1"></i>নোটিস সেভ করুন';
                 btn.disabled = false;
             }
         }
@@ -1004,13 +1121,13 @@
             const icons = { info: 'ℹ️', warning: '⚠️', success: '✅', error: '🚫' };
             const colors = { info: 'border-blue-500/40 bg-blue-500/10', warning: 'border-amber-500/40 bg-amber-500/10', success: 'border-emerald-500/40 bg-emerald-500/10', error: 'border-red-500/40 bg-red-500/10' };
             container.innerHTML = `
-                <div class="border ${colors[n.type]} rounded-xl p-4 space-y-2">
+                <div class="border ${colors[n.type]} rounded-2xl p-4 space-y-2">
                     <div class="flex items-center space-x-2">
                         <span class="text-lg">${icons[n.type]}</span>
                         <h4 class="font-black text-sm text-white">${n.title}</h4>
                     </div>
                     <p class="text-xs text-gray-300 leading-relaxed">${n.body}</p>
-                    <p class="text-[10px] text-gray-500 font-bold">সেট করা হয়েছে: ${new Date(n.time).toLocaleString('bn-BD')}</p>
+                    <p class="text-[10px] text-gray-400 font-bold">সেট করা হয়েছে: ${new Date(n.time).toLocaleString('bn-BD')}</p>
                 </div>
             `;
             clearBtn.classList.remove('hidden');
@@ -1021,7 +1138,7 @@
                 await fetch(`${WORKER_URL}/notice?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
                 localStorage.removeItem('admin_notice');
                 loadCurrentNotice();
-                showToast('নোটিস মুছে ফেলা হয়েছে');
+                showToast('নোটিস মুছে ফেলা হয়েছে');
             } catch(e) {
                 showToast('মুছতে সমস্যা হয়েছে', 'error');
             }
@@ -1036,13 +1153,13 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chat_id: userId, text: `📩 <b>অ্যাডমিনের মেসেজ:</b>\n\n${msg}`, parse_mode: 'HTML' })
                 });
-                showToast(`${userName} কে মেসেজ পাঠানো হয়েছে!`);
+                showToast(`${userName} কে মেসেজ পাঠানো হয়েছে!`);
             } catch(e) { showToast('মেসেজ পাঠানো যায়নি', 'error'); }
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            showToast('আইডি কপি হয়েছে!');
+            showToast('আইডি কপি হয়েছে!');
         }
 
         // Webhook চেক
@@ -1068,7 +1185,7 @@
                 const res = await fetch(`${WORKER_URL}/daily-report?admin_id=${ADMIN_ID}`);
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('রিপোর্ট টেলিগ্রামে পাঠানো হয়েছে!');
+                    showToast('রিপোর্ট টেলিগ্রামে পাঠানো হয়েছে!');
                 } else {
                     showToast('রিপোর্ট পাঠাতে ব্যর্থ', 'error');
                 }
@@ -1081,7 +1198,7 @@
                 const res = await fetch(`${WORKER_URL}/clear?admin_id=${ADMIN_ID}`, { method: 'DELETE' });
                 const data = await res.json();
                 if (data.ok) {
-                    showToast('সব ডেটা মুছে ফেলা হয়েছে');
+                    showToast('সব ডেটা মুছে ফেলা হয়েছে');
                     allUsersCache = {};
                     loadDashboard();
                 }
@@ -1091,10 +1208,10 @@
         // সব রিফ্রেশ
         async function refreshAll() {
             const icon = document.getElementById('refresh-icon');
-            icon.className = 'fa-solid fa-rotate-right text-sm fa-spin';
+            icon.className = 'fa-solid fa-rotate-right text-xs fa-spin';
             const activeTab = document.querySelector('.tab-content.active').id.replace('tab-','');
             await switchTab(activeTab);
-            setTimeout(() => { icon.className = 'fa-solid fa-rotate-right text-sm'; }, 1000);
+            setTimeout(() => { icon.className = 'fa-solid fa-rotate-right text-xs'; }, 1000);
         }
 
         document.getElementById('user-search-input').addEventListener('keydown', e => { if (e.key === 'Enter') searchUsers(); });
