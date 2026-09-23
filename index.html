@@ -8,7 +8,20 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: { extend: {} }
+            theme: { 
+                extend: {
+                    colors: {
+                        vip: {
+                            gold: '#F59E0B',
+                            cyan: '#06B6D4',
+                            purple: '#A855F7',
+                            pink: '#EC4899',
+                            emerald: '#10B981',
+                            blue: '#0284C7'
+                        }
+                    }
+                } 
+            }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,354 +31,338 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* 🌙 Premium Dark Mode */
         html.dark body {
             background: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 30%),
-                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 30%),
-                radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 30%),
-                linear-gradient(135deg, #0B1120 0%, #070B14 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 20s ease infinite;
-            color: #E2E8F0;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+                radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 15%, rgba(168, 85, 247, 0.12) 0%, transparent 30%),
+                radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.08) 0%, transparent 30%),
+                linear-gradient(135deg, #070D18 0%, #030712 100%);
+            color: #F1F5F9;
         }
 
         html.dark .glass {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
         }
 
         html.dark .glass-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.75), rgba(15, 23, 42, 0.9));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html.dark .glass-card:hover {
-            border-color: rgba(56, 189, 248, 0.3);
-            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         html.dark .stat-card {
-            background: linear-gradient(145deg, rgba(22, 33, 56, 0.9), rgba(12, 19, 34, 0.95));
+            background: linear-gradient(145deg, rgba(22, 33, 56, 0.95), rgba(12, 19, 34, 0.98));
             border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #E2E8F0;
+            color: #F1F5F9;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html.dark .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, #0088CC, #A855F7, #EC4899);
-            opacity: 0.9;
-        }
-
-        html.dark .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.2);
+            transition: all 0.3s ease;
         }
 
         html.dark input, html.dark textarea, html.dark select {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(56, 189, 248, 0.15) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            border: 1px solid rgba(56, 189, 248, 0.2) !important;
             color: #F8FAFC !important;
-            transition: all 0.3s ease !important;
         }
 
-        html.dark input:focus, html.dark textarea:focus, html.dark select:focus {
-            border-color: rgba(56, 189, 248, 0.5) !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1) !important;
-            outline: none !important;
-        }
-
-        /* ☀️ Premium Light Mode */
+        /* ☀️ Crisp Pure White Light Mode */
         html:not(.dark) body {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 30%),
-                radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.1) 0%, transparent 30%),
-                linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+            background: #F8FAFC;
             color: #0F172A;
         }
 
         html:not(.dark) .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
         }
 
         html:not(.dark) .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            color: #1E293B;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+            color: #0F172A !important;
+            transition: all 0.3s ease;
         }
 
         html:not(.dark) .glass-card:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
-            transform: translateY(-3px);
+            border-color: #0088CC !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 136, 204, 0.12) !important;
+            transform: translateY(-2px);
         }
 
         html:not(.dark) .stat-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-            color: #1E293B;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html:not(.dark) .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, #0088CC, #A855F7, #EC4899);
-        }
-
-        html:not(.dark) .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 136, 204, 0.15);
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+            color: #0F172A !important;
         }
 
         html:not(.dark) .stat-card p.text-white { color: #0F172A !important; }
         html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4 { color: #0F172A !important; }
         
         html:not(.dark) input, html:not(.dark) textarea, html:not(.dark) select {
-            background: rgba(255, 255, 255, 0.8) !important;
-            border: 1px solid rgba(203, 213, 225, 0.8) !important;
+            background: #F8FAFC !important;
+            border: 1.5px solid #CBD5E1 !important;
             color: #0F172A !important;
-            transition: all 0.3s ease !important;
         }
 
         html:not(.dark) input:focus, html:not(.dark) textarea:focus, html:not(.dark) select:focus {
-            border-color: rgba(56, 189, 248, 0.5) !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1) !important;
-            outline: none !important;
+            background: #FFFFFF !important;
+            border-color: #0088CC !important;
+            box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.15) !important;
         }
 
-        html:not(.dark) .nav-item { color: #475569 !important; }
-        html:not(.dark) .nav-item.active { color: #0088CC !important; }
-        html:not(.dark) .bg-\[\#0B1120\] { background: rgba(241, 245, 249, 0.8) !important; border-color: #CBD5E1 !important; color: #1E293B !important; }
+        html:not(.dark) .bg-\[\#0B1120\] { 
+            background: #F1F5F9 !important; 
+            border-color: #E2E8F0 !important; 
+            color: #1E293B !important; 
+        }
         html:not(.dark) .text-gray-400 { color: #64748B !important; }
-        html:not(.dark) .text-gray-300 { color: #334155 !important; }
+        html:not(.dark) .text-gray-300 { color: #1E293B !important; }
 
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        html.dark ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 10px; }
-        html.dark ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
-        html:not(.dark) ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 10px; }
-        html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
-
-        /* Nav Item Enhancements */
+        /* 🌈 রঙিন সাইডবার ও মেনু অ্যানিমেশন */
         .nav-item {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 3px solid transparent;
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0; width: 3px;
-            background: linear-gradient(180deg, #00C6FF, #0088CC);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-        }
         .nav-item:hover {
-            background: rgba(56, 189, 248, 0.08);
+            transform: translateX(4px);
         }
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(0, 198, 255, 0.15), rgba(0, 136, 204, 0.05));
-            font-weight: 900;
+        html:not(.dark) .nav-item {
+            color: #334155;
         }
-        .nav-item.active::before {
-            transform: scaleY(1);
+        html:not(.dark) .nav-item:hover {
+            background: rgba(241, 245, 249, 0.9);
         }
 
-        /* Color Pills Enhancement */
-        .color-gray  { background: linear-gradient(135deg, #334155, #1E293B); color: #CBD5E1; border: 1px solid #475569; transition: all 0.3s ease; }
-        .color-red   { background: linear-gradient(135deg, #FF416C, #FF4B2B); color: #FFFFFF; border: 1px solid rgba(255, 75, 43, 0.3); transition: all 0.3s ease; }
-        .color-green { background: linear-gradient(135deg, #11998e, #38ef7d); color: #FFFFFF; border: 1px solid rgba(56, 239, 125, 0.3); transition: all 0.3s ease; }
-        .color-blue  { background: linear-gradient(135deg, #0088CC, #00C6FF); color: #FFFFFF; border: 1px solid rgba(0, 198, 255, 0.3); transition: all 0.3s ease; }
+        /* স্পেশাল অ্যাক্টিভ মেনু ডিজাইন */
+        .nav-item.active {
+            font-weight: 900 !important;
+            box-shadow: 0 4px 15px -3px rgba(0, 136, 204, 0.25);
+        }
+        html.dark .nav-item.active {
+            background: linear-gradient(90deg, rgba(2, 132, 199, 0.22), rgba(168, 85, 247, 0.15));
+            border-left: 3.5px solid #00C6FF;
+            color: #FFFFFF !important;
+        }
+        html:not(.dark) .nav-item.active {
+            background: linear-gradient(90deg, #E0F2FE, #F3E8FF) !important;
+            border-left: 3.5px solid #0284C7;
+            color: #0284C7 !important;
+        }
+
+        /* মেনু আইকন গ্রেডিয়েন্ট বক্স */
+        .icon-box {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover .icon-box {
+            transform: scale(1.12) rotate(4deg);
+        }
+
+        /* গ্লোইং লোগো বর্ডার */
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(56, 189, 248, 0.8); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+            50% { border-color: rgba(168, 85, 247, 0.8); box-shadow: 0 0 18px rgba(168, 85, 247, 0.4); }
+        }
+        .logo-vip-glow {
+            animation: borderPulse 3s infinite ease-in-out;
+        }
+
+        /* রয়্যাল ক্রিয়েটর কার্ড গ্রেডিয়েন্ট */
+        .royal-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(236, 72, 153, 0.12));
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            transition: all 0.3s ease;
+        }
+        .royal-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);
+        }
+
+        /* Color Pills */
+        .color-gray  { background: linear-gradient(135deg, #475569, #334155); color: #FFFFFF; }
+        .color-red   { background: linear-gradient(135deg, #EF4444, #DC2626); color: #FFFFFF; }
+        .color-green { background: linear-gradient(135deg, #10B981, #059669); color: #FFFFFF; }
+        .color-blue  { background: linear-gradient(135deg, #0088CC, #0284C7); color: #FFFFFF; }
 
         .selected-ring { 
-            outline: 2px solid #00C6FF; 
+            outline: 2.5px solid #00C6FF; 
             outline-offset: 2px; 
             transform: scale(1.05); 
-            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
         }
 
-        /* Medal Enhancements */
-        .medal-1 { background: linear-gradient(135deg, #FFD700, #FF8C00); color: white; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3); }
-        .medal-2 { background: linear-gradient(135deg, #E0E7FF, #94A3B8); color: #1E293B; box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3); }
-        .medal-3 { background: linear-gradient(135deg, #F59E0B, #B45309); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+        /* Medals */
+        .medal-1 { background: linear-gradient(135deg, #FFD700, #F59E0B); color: white; }
+        .medal-2 { background: linear-gradient(135deg, #CBD5E1, #94A3B8); color: #0F172A; }
+        .medal-3 { background: linear-gradient(135deg, #F97316, #C2410C); color: white; }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .tab-content.active { display: block; animation: slideFadeUp 0.3s ease-out forwards; }
 
         @keyframes slideFadeUp {
-            from { opacity: 0; transform: translateY(16px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulseGlow {
-            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.8)); }
-            50% { opacity: 0.6; transform: scale(0.9); filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.4)); }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
         }
         .pulse-live { animation: pulseGlow 2s infinite ease-in-out; }
 
-        /* Premium Button Gradients */
         .btn-gradient-blue {
             background: linear-gradient(135deg, #0088CC 0%, #00C6FF 100%);
-            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-gradient-blue::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        .btn-gradient-blue:hover::before {
-            left: 100%;
+            color: #FFFFFF;
+            transition: all 0.25s ease;
         }
         .btn-gradient-blue:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 198, 255, 0.4);
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 18px rgba(0, 136, 204, 0.4);
         }
 
         .btn-gradient-red {
             background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-gradient-red:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+            color: #FFFFFF;
         }
 
-        .sidebar { width: 245px; min-height: 100vh; position: fixed; left: 0; top: 0; z-index: 40; }
-        .main-content { margin-left: 245px; min-height: 100vh; }
+        .sidebar { 
+            width: 265px; 
+            min-height: 100vh; 
+            position: fixed; 
+            left: 0; 
+            top: 0; 
+            z-index: 50; 
+        }
+        .main-content { margin-left: 265px; min-height: 100vh; }
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+            .sidebar { 
+                transform: translateX(-100%); 
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+                box-shadow: 0 0 35px rgba(0,0,0,0.3);
+            }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; }
         }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 30; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 45; }
         .overlay.show { display: block; }
-
-        /* Modal & Toast Animations */
-        @keyframes modalSlideUp {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        #modal-direct-msg > div {
-            animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.9); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        #toast {
-            animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
     </style>
 </head>
 <body class="select-none antialiased">
 
     <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
-    <!-- সাইডবার -->
+    <!-- 🌟 রঙিন ও অ্যানিমেটেড সাইডবার -->
     <aside id="sidebar" class="sidebar glass border-r flex flex-col justify-between">
         <div>
+            <!-- ব্র্যান্ড হেডার -->
             <div class="p-4 border-b border-sky-500/15">
                 <div class="flex items-center space-x-3">
-                    <div class="w-11 h-11 rounded-2xl overflow-hidden border-2 border-sky-400/40 shadow-lg shadow-sky-500/20">
+                    <div class="w-11 h-11 rounded-2xl overflow-hidden border-2 logo-vip-glow shrink-0">
                         <img src="https://i.ibb.co/ch2mM15h/file-392.jpg" alt="Logo" class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <h1 class="font-black text-sm tracking-wide">Easy Poster</h1>
+                        <h1 class="font-black text-sm tracking-wide bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">Easy Poster</h1>
                         <p class="text-[10px] text-sky-500 font-black flex items-center space-x-1.5 mt-0.5">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-live"></span>
-                            <span>VIP Admin Panel</span>
+                            <span>VIP Admin Studio</span>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <nav class="p-3 space-y-1 overflow-y-auto">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+            <!-- রঙিন মেনু তালিকা -->
+            <nav class="p-3 space-y-1.5 overflow-y-auto max-h-[calc(100vh-160px)]">
+                <!-- ১. ড্যাশবোর্ড -->
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-white flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
+                        <i class="fa-solid fa-chart-pie text-xs"></i>
+                    </div>
                     <span>ড্যাশবোর্ড</span>
                 </button>
-                <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-users w-4 text-center text-purple-400"></i>
+
+                <!-- ২. ইউজার ম্যানেজমেন্ট -->
+                <button onclick="switchTab('users')" id="nav-users" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-purple-500/20 shrink-0">
+                        <i class="fa-solid fa-users text-xs"></i>
+                    </div>
                     <span>ইউজার ম্যানেজমেন্ট</span>
                 </button>
-                <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-tower-broadcast w-4 text-center text-sky-400"></i>
+
+                <!-- ৩. সংযুক্ত চ্যানেল ও গ্রুপ -->
+                <button onclick="switchTab('channels-hub')" id="nav-channels-hub" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-sky-400 to-blue-500 text-white flex items-center justify-center shadow-md shadow-sky-500/20 shrink-0">
+                        <i class="fa-solid fa-tower-broadcast text-xs"></i>
+                    </div>
                     <span>সংযুক্ত চ্যানেল ও গ্রুপ</span>
                 </button>
-                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+
+                <!-- ৪. লিডারবোর্ড -->
+                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 shrink-0">
+                        <i class="fa-solid fa-trophy text-xs"></i>
+                    </div>
                     <span>লিডারবোর্ড</span>
                 </button>
-                <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-bullhorn w-4 text-center text-pink-400"></i>
+
+                <!-- ৫. ব্রডকাস্ট স্টুডিও -->
+                <button onclick="switchTab('broadcast')" id="nav-broadcast" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 text-white flex items-center justify-center shadow-md shadow-pink-500/20 shrink-0">
+                        <i class="fa-solid fa-bullhorn text-xs"></i>
+                    </div>
                     <span>ব্রডকাস্ট স্টুডিও</span>
                 </button>
-                <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-clock-rotate-left w-4 text-center text-emerald-400"></i>
+
+                <!-- ৬. পোস্ট লগ -->
+                <button onclick="switchTab('logs')" id="nav-logs" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white flex items-center justify-center shadow-md shadow-emerald-500/20 shrink-0">
+                        <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+                    </div>
                     <span>পোস্ট লগ</span>
                 </button>
-                <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-bell w-4 text-center text-yellow-400"></i>
+
+                <!-- ৭. নোটিস বোর্ড -->
+                <button onclick="switchTab('notice')" id="nav-notice" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 text-white flex items-center justify-center shadow-md shadow-yellow-500/20 shrink-0">
+                        <i class="fa-solid fa-bell text-xs"></i>
+                    </div>
                     <span>নোটিস বোর্ড</span>
                 </button>
-                <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left text-xs font-black">
-                    <i class="fa-solid fa-sliders w-4 text-center text-slate-400"></i>
+
+                <!-- ৮. সিস্টেম কন্ট্রোল -->
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-left text-xs font-black">
+                    <div class="icon-box w-7 h-7 rounded-xl bg-gradient-to-br from-slate-500 to-slate-700 text-white flex items-center justify-center shadow-md shrink-0">
+                        <i class="fa-solid fa-sliders text-xs"></i>
+                    </div>
                     <span>সিস্টেম কন্ট্রোল</span>
                 </button>
             </nav>
         </div>
 
+        <!-- ফুটার ক্রিয়েটর কার্ড -->
         <div class="p-3 border-t border-sky-500/15">
-            <div class="glass-card rounded-2xl p-2.5 flex items-center space-x-2.5">
-                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-xs font-black text-white shadow-md">R</div>
+            <div class="royal-card rounded-2xl p-2.5 flex items-center space-x-2.5 shadow-md">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 flex items-center justify-center text-xs font-black text-white shadow-lg shrink-0">
+                    <i class="fa-solid fa-crown text-xs"></i>
+                </div>
                 <div class="truncate">
-                    <p class="text-xs font-black truncate">রাকিব হাসান</p>
-                    <p class="text-[9px] text-amber-400 font-bold flex items-center space-x-1">
-                        <i class="fa-solid fa-crown text-[8px]"></i>
-                        <span>Super Creator</span>
+                    <p class="text-xs font-black truncate text-amber-500">রাকিব হাসান</p>
+                    <p class="text-[9px] text-gray-400 font-bold flex items-center space-x-1">
+                        <i class="fa-solid fa-circle-check text-sky-500 text-[8px]"></i>
+                        <span>Super Creator & Dev</span>
                     </p>
                 </div>
             </div>
@@ -376,7 +373,7 @@
     <main class="main-content">
         <header class="glass border-b px-4 py-3 sticky top-0 z-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-gray-700 dark:text-gray-200 active:scale-90 transition">
+                <button onclick="toggleSidebar()" class="md:hidden w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-gray-700 dark:text-gray-200 active:scale-90 transition shadow-sm">
                     <i class="fa-solid fa-bars-staggered text-sm"></i>
                 </button>
                 <div>
@@ -385,12 +382,12 @@
                 </div>
             </div>
 
-            <!-- হেডার কন্ট্রোলস (থিম বাটন + রিফ্রেশ) -->
+            <!-- হেডার কন্ট্রোলস -->
             <div class="flex items-center space-x-2">
-                <button onclick="toggleAdminTheme()" id="theme-toggle-btn" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sm active:scale-90 transition shadow-inner">
-                    <i class="fa-solid fa-sun text-yellow-400"></i>
+                <button onclick="toggleAdminTheme()" id="theme-toggle-btn" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sm active:scale-90 transition shadow-sm">
+                    <i class="fa-solid fa-sun text-yellow-500"></i>
                 </button>
-                <button onclick="refreshAll()" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sky-500 active:scale-90 transition shadow-inner">
+                <button onclick="refreshAll()" class="w-9 h-9 rounded-2xl bg-gray-100 dark:bg-[#162032] border border-sky-500/20 flex items-center justify-center text-sky-500 active:scale-90 transition shadow-sm">
                     <i class="fa-solid fa-rotate-right text-xs" id="refresh-icon"></i>
                 </button>
                 <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-2xl">
@@ -405,40 +402,40 @@
             <!-- TAB 1: ড্যাশবোর্ড -->
             <div id="tab-dashboard" class="tab-content active space-y-5">
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
-                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
-                        <div class="w-9 h-9 rounded-2xl bg-blue-500/20 text-sky-500 flex items-center justify-center text-sm"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-sm">
+                        <div class="w-9 h-9 rounded-2xl bg-cyan-500/15 text-cyan-500 flex items-center justify-center text-sm"><i class="fa-solid fa-users"></i></div>
                         <div>
                             <p class="text-xl font-black text-white tracking-tight" id="stat-total-users">—</p>
                             <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট ইউজার</p>
                         </div>
                     </div>
 
-                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
-                        <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-sm"><i class="fa-solid fa-tower-broadcast"></i></div>
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-sm">
+                        <div class="w-9 h-9 rounded-2xl bg-sky-500/15 text-sky-500 flex items-center justify-center text-sm"><i class="fa-solid fa-tower-broadcast"></i></div>
                         <div>
-                            <p class="text-xl font-black text-sky-400 tracking-tight" id="stat-total-channels">—</p>
+                            <p class="text-xl font-black text-sky-500 tracking-tight" id="stat-total-channels">—</p>
                             <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট চ্যানেল/গ্রুপ</p>
                         </div>
                     </div>
 
-                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
-                        <div class="w-9 h-9 rounded-2xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-sm"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-sm">
+                        <div class="w-9 h-9 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-sm"><i class="fa-solid fa-circle-check"></i></div>
                         <div>
                             <p class="text-xl font-black text-white tracking-tight" id="stat-today-users">—</p>
                             <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">আজকে অ্যাক্টিভ</p>
                         </div>
                     </div>
 
-                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg">
-                        <div class="w-9 h-9 rounded-2xl bg-purple-500/20 text-purple-500 flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-sm">
+                        <div class="w-9 h-9 rounded-2xl bg-purple-500/15 text-purple-500 flex items-center justify-center text-sm"><i class="fa-solid fa-paper-plane"></i></div>
                         <div>
                             <p class="text-xl font-black text-white tracking-tight" id="stat-total-posts">—</p>
                             <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">মোট পোস্ট</p>
                         </div>
                     </div>
 
-                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-lg col-span-2 sm:col-span-1">
-                        <div class="w-9 h-9 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-sm"><i class="fa-solid fa-trophy"></i></div>
+                    <div class="stat-card rounded-3xl p-3.5 space-y-2 shadow-sm col-span-2 sm:col-span-1">
+                        <div class="w-9 h-9 rounded-2xl bg-amber-500/15 text-amber-500 flex items-center justify-center text-sm"><i class="fa-solid fa-trophy"></i></div>
                         <div>
                             <p class="text-base font-black text-white truncate" id="stat-top-user">—</p>
                             <p class="text-[9px] text-gray-400 font-black uppercase tracking-wider">টপ পোস্টকারী</p>
@@ -482,7 +479,7 @@
                             <i class="fa-solid fa-search"></i>
                             <span class="hidden sm:inline">সার্চ</span>
                         </button>
-                        <button onclick="loadUsers()" class="px-3.5 py-2.5 rounded-2xl text-xs font-black text-gray-300 bg-[#0B1120] border border-sky-500/20 shrink-0 active:scale-95">
+                        <button onclick="loadUsers()" class="px-3.5 py-2.5 rounded-2xl text-xs font-black text-gray-400 dark:text-gray-300 bg-[#0B1120] border border-sky-500/20 shrink-0 active:scale-95">
                             সব
                         </button>
                     </div>
@@ -500,15 +497,15 @@
 
             <!-- TAB 3: সংযুক্ত চ্যানেল ও গ্রুপ হাব -->
             <div id="tab-channels-hub" class="tab-content space-y-4">
-                <div class="bg-gradient-to-r from-sky-500/20 via-blue-500/20 to-indigo-500/20 border border-sky-500/30 rounded-3xl p-4 flex items-center justify-between shadow-lg">
+                <div class="bg-gradient-to-r from-sky-500/15 via-blue-500/15 to-indigo-500/15 border border-sky-500/30 rounded-3xl p-4 flex items-center justify-between shadow-sm">
                     <div class="flex items-center space-x-3">
-                        <div class="w-11 h-11 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-tower-broadcast"></i></div>
+                        <div class="w-11 h-11 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-tower-broadcast"></i></div>
                         <div>
                             <h3 class="font-black text-sm">সংযুক্ত চ্যানেল ও গ্রুপ</h3>
-                            <p class="text-[10px] text-sky-400 font-bold">ইউজাররা যে যে চ্যানেল ও গ্রুপ বটে কানেক্ট করেছে</p>
+                            <p class="text-[10px] text-sky-500 font-bold">ইউজারদের কানেক্ট করা চ্যানেল ও গ্রুপ আলাদা আলাদা সঠিক শনাক্তকরণ সহ</p>
                         </div>
                     </div>
-                    <button onclick="loadChannelsHub()" class="px-3 py-1.5 bg-black/20 border border-sky-500/30 rounded-xl text-xs font-black text-sky-400 active:scale-95"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadChannelsHub()" class="px-3 py-1.5 bg-black/10 dark:bg-black/20 border border-sky-500/30 rounded-xl text-xs font-black text-sky-500 active:scale-95"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
                 <div id="channels-hub-list" class="space-y-3">
@@ -518,7 +515,7 @@
 
             <!-- TAB 4: লিডারবোর্ড -->
             <div id="tab-leaderboard" class="tab-content space-y-4">
-                <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-3xl p-5 shadow-lg flex items-center justify-between">
+                <div class="bg-gradient-to-r from-yellow-500/15 via-amber-500/15 to-orange-500/15 border border-amber-500/30 rounded-3xl p-5 shadow-sm flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-2xl shadow-inner">🏆</div>
                         <div>
@@ -526,7 +523,7 @@
                             <p class="text-[11px] text-amber-500 font-bold">সবচেয়ে বেশি পোস্টকারী সেরা ১০ ইউজার</p>
                         </div>
                     </div>
-                    <button onclick="loadLeaderboard()" class="text-xs font-black text-amber-500 bg-black/25 px-3 py-1.5 rounded-xl border border-amber-500/20"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
+                    <button onclick="loadLeaderboard()" class="text-xs font-black text-amber-500 bg-black/10 dark:bg-black/25 px-3 py-1.5 rounded-xl border border-amber-500/20"><i class="fa-solid fa-rotate-right mr-1"></i>রিফ্রেশ</button>
                 </div>
 
                 <div id="leaderboard-list" class="space-y-3">
@@ -536,7 +533,7 @@
 
             <!-- TAB 5: ব্রডকাস্ট স্টুডিও -->
             <div id="tab-broadcast" class="tab-content space-y-4">
-                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
+                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-md">
                     <div class="flex items-center space-x-3 pb-3 border-b">
                         <div class="w-11 h-11 rounded-2xl bg-pink-500/20 text-pink-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bullhorn"></i></div>
                         <div>
@@ -545,29 +542,28 @@
                         </div>
                     </div>
 
-                    <!-- ৪টি আলাদা মিডিয়া বাটন -->
                     <div class="space-y-2">
                         <label class="text-xs font-black text-sky-500 block">📁 মিডিয়া নির্বাচন করুন (ঐচ্ছিক):</label>
                         <div class="grid grid-cols-4 gap-1.5">
-                            <label class="bg-gradient-to-r from-[#00A3E0] to-[#0088CC] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow-md">
+                            <label class="bg-gradient-to-r from-[#00A3E0] to-[#0088CC] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow">
                                 <i class="fa-regular fa-image text-base mb-1"></i>
                                 <span class="text-[10px] font-black">ছবি যোগ</span>
                                 <input type="file" id="bc-photo-input" accept="image/*" class="hidden" onchange="handleBcMedia('photo', event)">
                             </label>
 
-                            <label class="bg-gradient-to-r from-[#EF4444] to-[#DC2626] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow-md">
+                            <label class="bg-gradient-to-r from-[#EF4444] to-[#DC2626] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow">
                                 <i class="fa-solid fa-video text-base mb-1"></i>
                                 <span class="text-[10px] font-black">ভিডিও যোগ</span>
                                 <input type="file" id="bc-video-input" accept="video/*" class="hidden" onchange="handleBcMedia('video', event)">
                             </label>
 
-                            <label class="bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow-md">
+                            <label class="bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow">
                                 <i class="fa-solid fa-music text-base mb-1"></i>
                                 <span class="text-[10px] font-black">অডিও যোগ</span>
                                 <input type="file" id="bc-audio-input" accept="audio/*,.mp3" class="hidden" onchange="handleBcMedia('audio', event)">
                             </label>
 
-                            <label class="bg-gradient-to-r from-[#F7941D] to-[#FF5722] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow-md">
+                            <label class="bg-gradient-to-r from-[#F7941D] to-[#FF5722] text-white rounded-2xl py-2.5 px-1 text-center cursor-pointer active:scale-95 transition flex flex-col items-center justify-center shadow">
                                 <i class="fa-solid fa-file-lines text-base mb-1"></i>
                                 <span class="text-[10px] font-black">ফাইল যোগ</span>
                                 <input type="file" id="bc-file-input" accept="application/*,.pdf,.zip" class="hidden" onchange="handleBcMedia('document', event)">
@@ -579,17 +575,16 @@
                                 <span id="bc-media-icon" class="text-base">🖼️</span>
                                 <span id="bc-media-filename" class="text-xs font-black truncate">image.jpg</span>
                             </div>
-                            <button type="button" onclick="removeBcMedia()" class="w-7 h-7 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs active:scale-90">
+                            <button type="button" onclick="removeBcMedia()" class="w-7 h-7 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center text-xs active:scale-90">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- ফরম্যাটিং টুলবার -->
                     <div class="space-y-1.5 pt-1">
                         <div class="flex justify-between items-center">
                             <label class="text-xs font-black text-gray-400">ক্যাপশন / মেসেজ লিখুন:</label>
-                            <button onclick="cleanBcFormatting()" class="text-[10px] font-bold text-gray-400 hover:text-red-400 bg-[#0B1120] px-2 py-0.5 rounded-lg border border-sky-500/20">ক্লিন</button>
+                            <button onclick="cleanBcFormatting()" class="text-[10px] font-bold text-gray-400 hover:text-red-500 bg-[#0B1120] px-2 py-0.5 rounded-lg border border-sky-500/20">ক্লিন</button>
                         </div>
                         <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs">
                             <button type="button" onclick="applyBcFormatting('<b>', '</b>')" class="px-2.5 py-1 bg-[#0B1120] font-black rounded-xl border border-sky-500/20 active:scale-90">B</button>
@@ -602,7 +597,6 @@
                         <textarea id="broadcast-text" rows="4" placeholder="পোস্টের মূল বার্তা এখানে লিখুন..." class="w-full rounded-2xl p-3.5 text-xs font-medium resize-none leading-relaxed shadow-inner"></textarea>
                     </div>
 
-                    <!-- বাটন ও ৪টি কালার বক্স -->
                     <div class="bg-[#0B1120] p-3.5 rounded-2xl space-y-2.5 border border-sky-500/20">
                         <span class="text-xs font-black text-amber-500 block">🔗 ব্রডকাস্টে বাটন যুক্ত করুন (ঐচ্ছিক):</span>
                         <div class="grid grid-cols-2 gap-2">
@@ -621,31 +615,29 @@
                         </div>
                     </div>
 
-                    <!-- পিন সুইচ -->
                     <div class="flex items-center justify-between pt-1">
                         <label class="flex items-center space-x-2.5 cursor-pointer">
                             <input type="checkbox" id="bc-pin-msg" class="w-4 h-4 accent-[#0088CC] rounded">
-                            <span class="text-xs font-black text-gray-300">📌 ইউজারের চ্যাটে মেসেজটি অটো-পিন করুন</span>
+                            <span class="text-xs font-black text-gray-400 dark:text-gray-300">📌 ইউজারের চ্যাটে মেসেজটি অটো-পিন করুন</span>
                         </label>
                     </div>
 
                     <div class="flex items-center justify-between pt-2 border-t">
                         <p class="text-[11px] text-gray-400 font-bold" id="broadcast-user-count">মোট ০ জন ইউজার পাবে</p>
-                        <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-gradient-blue px-7 py-3 rounded-2xl text-xs font-black text-white flex items-center space-x-2 active:scale-95 shadow-lg">
+                        <button onclick="sendBroadcast()" id="broadcast-btn" class="btn-gradient-blue px-7 py-3 rounded-2xl text-xs font-black text-white flex items-center space-x-2 active:scale-95 shadow-md">
                             <i class="fa-solid fa-paper-plane"></i>
                             <span>পাঠান</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- হিস্ট্রি ও মুছুন বাটন -->
                 <div class="glass-card rounded-3xl p-5 space-y-3">
                     <div class="flex items-center justify-between border-b pb-3">
                         <h4 class="font-black text-xs uppercase tracking-wider flex items-center space-x-1.5">
                             <i class="fa-solid fa-clock-rotate-left text-pink-500"></i>
                             <span>পাঠানো মেসেজের ইতিহাস</span>
                         </h4>
-                        <button onclick="clearBroadcastHistory()" class="px-3 py-1.5 bg-red-500/15 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-xl text-[11px] font-black active:scale-95 transition flex items-center space-x-1">
+                        <button onclick="clearBroadcastHistory()" class="px-3 py-1.5 bg-red-500/15 hover:bg-red-500/30 text-red-500 border border-red-500/30 rounded-xl text-[11px] font-black active:scale-95 transition flex items-center space-x-1">
                             <i class="fa-solid fa-trash-can text-[10px]"></i>
                             <span>সব মুছুন</span>
                         </button>
@@ -672,7 +664,7 @@
 
             <!-- TAB 7: নোটিস বোর্ড -->
             <div id="tab-notice" class="tab-content space-y-4">
-                <div class="glass-card rounded-3xl p-5 space-y-4 border border-amber-500/30 shadow-xl">
+                <div class="glass-card rounded-3xl p-5 space-y-4 border border-amber-500/30 shadow-md">
                     <div class="flex items-center space-x-3 pb-3 border-b border-amber-500/20">
                         <div class="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-bell"></i></div>
                         <div>
@@ -698,7 +690,7 @@
                             <option value="success">✅ সফল বার্তা (Green)</option>
                             <option value="error">🚫 জরুরি অ্যালার্ট (Red)</option>
                         </select>
-                        <button onclick="saveNotice()" id="save-notice-btn" class="btn-gradient-blue py-2.5 rounded-2xl text-xs font-black text-white active:scale-95 shadow-lg">
+                        <button onclick="saveNotice()" id="save-notice-btn" class="btn-gradient-blue py-2.5 rounded-2xl text-xs font-black text-white active:scale-95 shadow-md">
                             <i class="fa-solid fa-floppy-disk mr-1"></i>নোটিস সেভ করুন
                         </button>
                     </div>
@@ -717,7 +709,7 @@
 
             <!-- TAB 8: সিস্টেম সেটিংস -->
             <div id="tab-settings" class="tab-content space-y-4">
-                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-xl">
+                <div class="glass-card rounded-3xl p-5 space-y-4 shadow-md">
                     <h3 class="font-black text-sm flex items-center space-x-2">
                         <i class="fa-solid fa-server text-sky-500"></i>
                         <span>সিস্টেম ইনফরমেশন</span>
@@ -725,7 +717,7 @@
                     <div class="grid grid-cols-2 gap-2.5">
                         <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
                             <p class="text-[10px] text-gray-400 font-bold">Worker API URL</p>
-                            <p class="text-xs font-black text-sky-400 truncate">post.myalorhawa.workers.dev</p>
+                            <p class="text-xs font-black text-sky-500 truncate">post.myalorhawa.workers.dev</p>
                         </div>
                         <div class="bg-[#0B1120] rounded-2xl p-3 space-y-1 border border-sky-500/10">
                             <p class="text-[10px] text-gray-400 font-bold">KV Storage</p>
@@ -742,7 +734,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card rounded-3xl p-5 space-y-3 shadow-xl">
+                <div class="glass-card rounded-3xl p-5 space-y-3 shadow-md">
                     <h3 class="font-black text-sm">🛠️ ম্যানুয়াল কমান্ড ও টুলস</h3>
                     <div class="space-y-2">
                         <button onclick="sendManualReport()" class="w-full bg-[#0B1120] border border-sky-500/20 hover:border-sky-400 py-3 rounded-2xl text-xs font-black text-left px-4 flex items-center space-x-3 active:scale-98 transition">
@@ -762,7 +754,7 @@
 
                 <div class="glass-card rounded-3xl p-5 text-center space-y-2 border border-amber-500/20">
                     <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-crown"></i></div>
-                    <h4 class="font-black text-sm">রাকিব হাসান</h4>
+                    <h4 class="font-black text-sm text-amber-500">রাকিব হাসান</h4>
                     <p class="text-[10px] text-gray-400 font-bold">Easy Poster Bot Official Creator</p>
                     <div class="flex items-center justify-center space-x-1.5 pt-0.5">
                         <i class="fa-solid fa-circle-check text-sky-500 text-[10px]"></i>
@@ -774,15 +766,15 @@
         </div>
     </main>
 
-    <!-- 🌟 ভিআইপি কাস্টম ডিরেক্ট মেসেজ মডাল (ব্রাউজার পপআপের পরিবর্তে) -->
+    <!-- 🌟 ভিআইপি কাস্টম ডিরেক্ট মেসেজ মডাল -->
     <div id="modal-direct-msg" class="fixed inset-0 bg-black/65 backdrop-blur-md z-50 flex items-end sm:items-center justify-center hidden p-0 sm:p-4">
-        <div class="glass-card w-full max-w-md rounded-t-[36px] sm:rounded-3xl p-6 space-y-4 shadow-2xl border border-sky-500/30 animate-fade">
+        <div class="glass-card w-full max-w-md rounded-t-[36px] sm:rounded-3xl p-6 space-y-4 shadow-2xl border border-sky-500/30">
             <div class="flex items-center justify-between pb-2 border-b border-sky-500/15">
                 <div class="flex items-center space-x-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-base"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-base"><i class="fa-solid fa-paper-plane"></i></div>
                     <div>
                         <h3 class="text-sm font-black" id="dm-modal-username">ইউজার নেম</h3>
-                        <p class="text-[10px] text-sky-400 font-bold" id="dm-modal-userid">ID: 00000000</p>
+                        <p class="text-[10px] text-sky-500 font-bold" id="dm-modal-userid">ID: 00000000</p>
                     </div>
                 </div>
                 <button onclick="closeDirectMessageModal()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-800 text-gray-500 font-bold flex items-center justify-center active:scale-90">
@@ -799,7 +791,7 @@
                 <button onclick="closeDirectMessageModal()" class="w-1/3 py-3 bg-gray-200 dark:bg-[#0B1120] rounded-2xl text-xs font-black text-gray-600 dark:text-gray-400 active:scale-95 transition">
                     বাতিল
                 </button>
-                <button onclick="submitDirectMessage()" id="dm-send-btn" class="w-2/3 btn-gradient-blue py-3 rounded-2xl text-xs font-black text-white active:scale-95 shadow-lg flex items-center justify-center space-x-1.5 transition">
+                <button onclick="submitDirectMessage()" id="dm-send-btn" class="w-2/3 btn-gradient-blue py-3 rounded-2xl text-xs font-black text-white active:scale-95 shadow-md flex items-center justify-center space-x-1.5 transition">
                     <i class="fa-solid fa-paper-plane text-xs"></i>
                     <span>মেসেজ পাঠান</span>
                 </button>
@@ -809,7 +801,7 @@
 
     <!-- টোস্ট নোটিফিকেশন -->
     <div id="toast" class="fixed bottom-6 right-4 z-50 hidden">
-        <div class="glass rounded-2xl px-4 py-3 flex items-center space-x-2.5 shadow-2xl border border-sky-400/40 animate-fade">
+        <div class="glass rounded-2xl px-4 py-3 flex items-center space-x-2.5 shadow-2xl border border-sky-400/40">
             <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
             <p id="toast-msg" class="text-xs font-black"></p>
         </div>
@@ -820,6 +812,7 @@
         const WORKER_URL = 'https://post.myalorhawa.workers.dev';
         const ADMIN_ID = '6975980147';
         let allUsersCache = {};
+        let telegramChatCache = {}; // চ্যানেল/গ্রুপের নাম ও আসল লোগো ক্যাশ
         
         let selectedBcMediaFile = null;
         let selectedBcMediaType = null;
@@ -836,7 +829,7 @@
         function updateThemeIcon(isDark) {
             const btn = document.getElementById('theme-toggle-btn');
             if (btn) {
-                btn.innerHTML = isDark ? '<i class="fa-solid fa-sun text-yellow-400"></i>' : '<i class="fa-solid fa-moon text-sky-500"></i>';
+                btn.innerHTML = isDark ? '<i class="fa-solid fa-sun text-yellow-500"></i>' : '<i class="fa-solid fa-moon text-sky-600"></i>';
             }
         }
 
@@ -889,7 +882,7 @@
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toast-icon');
             document.getElementById('toast-msg').innerText = msg;
-            icon.className = type === 'success' ? 'fa-solid fa-circle-check text-emerald-400' : 'fa-solid fa-triangle-exclamation text-red-400';
+            icon.className = type === 'success' ? 'fa-solid fa-circle-check text-emerald-400' : 'fa-solid fa-triangle-exclamation text-red-500';
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
@@ -950,6 +943,35 @@
             currentBcBtnColor = color;
             document.querySelectorAll('.bc-color-pill').forEach(el => el.classList.remove('selected-ring'));
             document.getElementById(`bc-col-${color}`).classList.add('selected-ring');
+        }
+
+        // 🌟 টেলিগ্রাম API থেকে চ্যানেলের আসল নাম, ধরন (চ্যানেল নাকি গ্রুপ) এবং আসল লোগো আনার ফাংশন
+        async function fetchTelegramChatInfo(chatId) {
+            if (telegramChatCache[chatId]) return telegramChatCache[chatId];
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChat?chat_id=${encodeURIComponent(chatId)}`);
+                const data = await res.json();
+                if (data.ok && data.result) {
+                    const chat = data.result;
+                    let avatarUrl = null;
+
+                    // লোগো বা প্রোফাইল ছবির আসল ফাইল URL ফেচ করা
+                    if (chat.photo && chat.photo.small_file_id) {
+                        try {
+                            const fileRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${chat.photo.small_file_id}`);
+                            const fileData = await fileRes.json();
+                            if (fileData.ok && fileData.result?.file_path) {
+                                avatarUrl = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
+                            }
+                        } catch(e) {}
+                    }
+                    
+                    chat.avatarUrl = avatarUrl;
+                    telegramChatCache[chatId] = chat;
+                    return chat;
+                }
+            } catch(e) {}
+            return null;
         }
 
         // ড্যাশবোর্ড লোড
@@ -1047,7 +1069,7 @@
                     const res = await fetch(`${WORKER_URL}/users?admin_id=${ADMIN_ID}`);
                     const data = await res.json();
                     if (data.ok) { allUsersCache = data.users || {}; users = allUsersCache; }
-                } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; return; }
+                } catch(e) { container.innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-8">লোড করা যায়নি</p>'; return; }
             }
 
             const ids = Object.keys(users);
@@ -1097,7 +1119,7 @@
             });
         }
 
-        // 📡 সংযুক্ত চ্যানেল ও গ্রুপ হাব
+        // 📡 সংযুক্ত চ্যানেল ও গ্রুপ হাব (চ্যানেল এবং গ্রুপ আলাদা আলাদা ১০০% নিখুঁত শনাক্তকরণ সহ)
         async function loadChannelsHub() {
             const container = document.getElementById('channels-hub-list');
             container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">লোড হচ্ছে...</p>';
@@ -1117,7 +1139,7 @@
                     if (u.channels && Array.isArray(u.channels) && u.channels.length > 0) {
                         u.channels.forEach(ch => {
                             allChannelsList.push({
-                                channel: ch,
+                                channel: String(ch).trim(),
                                 userId: uid,
                                 userName: u.name || 'User',
                                 userUsername: u.username || '',
@@ -1134,35 +1156,147 @@
                 }
 
                 container.innerHTML = '';
-                allChannelsList.forEach(item => {
-                    const isUsername = item.channel.startsWith('@');
+                allChannelsList.forEach((item, idx) => {
+                    const ch = item.channel;
+                    const isUsername = ch.startsWith('@');
+                    const isLink = ch.startsWith('http://') || ch.startsWith('https://') || ch.startsWith('t.me/');
+                    const cleanIdOnly = ch.replace(/^(ID:\s*)+/i, '').replace(/^-100/, '').replace(/^-/, '');
+
                     const card = document.createElement('div');
                     card.className = 'glass-card rounded-3xl p-4 space-y-3 border border-sky-500/25';
-                    card.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg shrink-0 shadow">
-                                <i class="fa-solid fa-bullhorn"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-sm font-black truncate">${item.channel}</h4>
-                                <p class="text-[10px] text-sky-500 font-bold">অ্যাড করা চ্যানেল / গ্রুপ</p>
-                            </div>
-                            ${isUsername ? `<a href="https://t.me/${item.channel.replace('@','')}" target="_blank" class="px-3.5 py-1.5 btn-gradient-blue text-white rounded-xl text-xs font-black shrink-0 active:scale-95"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : ''}
-                        </div>
-                        <div class="bg-[#0B1120] p-2.5 rounded-2xl flex items-center justify-between text-[11px] font-bold border border-sky-500/10">
-                            <div class="flex items-center space-x-2 truncate">
-                                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[9px] overflow-hidden shrink-0">
-                                    ${item.userPhoto ? `<img src="${item.userPhoto}" class="w-full h-full object-cover">` : (item.userName.charAt(0).toUpperCase())}
+                    
+                    if (isUsername || isLink) {
+                        const targetUrl = isUsername ? `https://t.me/${ch.replace('@','')}` : (ch.startsWith('http') ? ch : `https://${ch}`);
+                        card.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <div id="ch-logo-${idx}" class="w-11 h-11 rounded-2xl bg-sky-500/20 text-sky-500 flex items-center justify-center text-lg shrink-0 shadow-sm overflow-hidden border border-sky-500/30">
+                                    <i class="fa-solid fa-bullhorn"></i>
                                 </div>
-                                <span class="truncate">👤 ${item.userName}</span>
+                                <div class="flex-1 min-w-0">
+                                    <h4 id="ch-name-${idx}" class="text-sm font-black truncate">${ch}</h4>
+                                    <p id="ch-badge-${idx}" class="text-[10px] text-sky-500 font-bold flex items-center space-x-1">
+                                        <span>📢 পাবলিক চ্যানেল</span>
+                                    </p>
+                                </div>
+                                <div id="ch-actions-${idx}">
+                                    <a href="${targetUrl}" target="_blank" class="px-3.5 py-1.5 btn-gradient-blue text-white rounded-xl text-xs font-black shrink-0 active:scale-95 flex items-center space-x-1 shadow">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        <span>জয়েন</span>
+                                    </a>
+                                </div>
                             </div>
-                            <span class="text-gray-400 shrink-0">🆔 ${item.userId}</span>
-                        </div>
-                    `;
+                            <div class="bg-[#0B1120] p-2.5 rounded-2xl flex items-center justify-between text-[11px] font-bold border border-sky-500/10">
+                                <div class="flex items-center space-x-2 truncate">
+                                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[9px] overflow-hidden shrink-0">
+                                        ${item.userPhoto ? `<img src="${item.userPhoto}" class="w-full h-full object-cover">` : (item.userName.charAt(0).toUpperCase())}
+                                    </div>
+                                    <span class="truncate">👤 ${item.userName}</span>
+                                </div>
+                                <span class="text-gray-400 shrink-0">🆔 ${item.userId}</span>
+                            </div>
+                        `;
+
+                        // পাবলিক চ্যাটের লাইভ ডাটা ও সঠিক টাইপ ফেচ
+                        if (isUsername) {
+                            fetchTelegramChatInfo(ch).then(info => {
+                                if (info) {
+                                    if (info.avatarUrl) {
+                                        const logoBox = document.getElementById(`ch-logo-${idx}`);
+                                        if (logoBox) logoBox.innerHTML = `<img src="${info.avatarUrl}" class="w-full h-full object-cover" alt="Logo">`;
+                                    }
+                                    if (info.title) {
+                                        const nameEl = document.getElementById(`ch-name-${idx}`);
+                                        if (nameEl) nameEl.innerHTML = `${info.title} <span class="text-[10px] text-gray-400 font-normal">(${ch})</span>`;
+                                    }
+                                    const badgeEl = document.getElementById(`ch-badge-${idx}`);
+                                    if (badgeEl) {
+                                        const isGroup = (info.type === 'group' || info.type === 'supergroup');
+                                        badgeEl.innerHTML = isGroup 
+                                            ? `<span class="text-purple-500 font-bold">👥 পাবলিক গ্রুপ</span>`
+                                            : `<span class="text-sky-500 font-bold">📢 পাবলিক চ্যানেল</span>`;
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        // প্রাইভেট চ্যাট (আইডি)
+                        card.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <div id="ch-logo-${idx}" class="w-11 h-11 rounded-2xl bg-purple-500/20 text-purple-500 flex items-center justify-center text-lg shrink-0 shadow-sm overflow-hidden border border-purple-500/30">
+                                    <i class="fa-solid fa-lock"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 id="ch-name-${idx}" class="text-sm font-black truncate flex items-center space-x-1.5">
+                                        <span>প্রাইভেট চ্যাট</span>
+                                        <i class="fa-solid fa-spinner fa-spin text-[10px] text-sky-500" id="ch-spinner-${idx}"></i>
+                                    </h4>
+                                    <p id="ch-badge-${idx}" class="text-[10px] text-gray-400 font-bold flex items-center space-x-1">
+                                        <span class="text-purple-500 font-bold">🔒 প্রাইভেট চ্যাট</span>
+                                        <span>•</span>
+                                        <span class="text-sky-500 font-mono">ID: ${ch.replace(/^(ID:\s*)+/i, '')}</span>
+                                    </p>
+                                </div>
+                                <div id="ch-actions-${idx}" class="flex items-center space-x-1.5 shrink-0">
+                                    <a href="https://web.telegram.org/a/#-${cleanIdOnly}" target="_blank" class="px-2.5 py-1.5 bg-sky-500/15 border border-sky-500/30 text-sky-500 rounded-xl text-xs font-black active:scale-95" title="টেলিগ্রাম ওয়েবে খুলুন">
+                                        <i class="fa-solid fa-globe"></i>
+                                    </a>
+                                    <button onclick="copyToClipboard('${ch.replace(/^(ID:\s*)+/i, '')}')" class="px-2.5 py-1.5 bg-[#0B1120] border border-sky-500/20 text-gray-400 rounded-xl text-xs font-black active:scale-95" title="আইডি কপি করুন">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-[#0B1120] p-2.5 rounded-2xl flex items-center justify-between text-[11px] font-bold border border-sky-500/10">
+                                <div class="flex items-center space-x-2 truncate">
+                                    <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[9px] overflow-hidden shrink-0">
+                                        ${item.userPhoto ? `<img src="${item.userPhoto}" class="w-full h-full object-cover">` : (item.userName.charAt(0).toUpperCase())}
+                                    </div>
+                                    <span class="truncate">👤 ${item.userName}</span>
+                                </div>
+                                <span class="text-gray-400 shrink-0">🆔 ${item.userId}</span>
+                            </div>
+                        `;
+
+                        // প্রাইভেট চ্যাটের টাইপ ও নাম লোড করা
+                        const pureId = ch.replace(/^(ID:\s*)+/i, '');
+                        fetchTelegramChatInfo(pureId).then(info => {
+                            const nameEl = document.getElementById(`ch-name-${idx}`);
+                            const badgeEl = document.getElementById(`ch-badge-${idx}`);
+                            const actionsEl = document.getElementById(`ch-actions-${idx}`);
+                            const logoBox = document.getElementById(`ch-logo-${idx}`);
+                            const spinner = document.getElementById(`ch-spinner-${idx}`);
+                            if (spinner) spinner.remove();
+
+                            if (info) {
+                                const isGroup = (info.type === 'group' || info.type === 'supergroup');
+                                if (info.avatarUrl && logoBox) {
+                                    logoBox.innerHTML = `<img src="${info.avatarUrl}" class="w-full h-full object-cover" alt="Logo">`;
+                                }
+                                if (info.title && nameEl) {
+                                    nameEl.innerHTML = `<span class="${isGroup ? 'text-purple-400' : 'text-emerald-400'} font-black">${info.title}</span>`;
+                                }
+                                if (badgeEl) {
+                                    badgeEl.innerHTML = isGroup 
+                                        ? `<span class="text-purple-400 font-bold">👥 প্রাইভেট গ্রুপ</span> <span class="text-gray-500">•</span> <span class="text-sky-500 font-mono">ID: ${pureId}</span>`
+                                        : `<span class="text-emerald-400 font-bold">🔒 প্রাইভেট চ্যানেল</span> <span class="text-gray-500">•</span> <span class="text-sky-500 font-mono">ID: ${pureId}</span>`;
+                                }
+                                if (info.invite_link && actionsEl) {
+                                    actionsEl.innerHTML = `
+                                        <a href="${info.invite_link}" target="_blank" class="px-3 py-1.5 btn-gradient-blue text-white rounded-xl text-xs font-black shrink-0 active:scale-95 flex items-center space-x-1 shadow">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            <span>জয়েন</span>
+                                        </a>
+                                        <button onclick="copyToClipboard('${pureId}')" class="px-2.5 py-1.5 bg-[#0B1120] border border-sky-500/20 text-gray-400 rounded-xl text-xs font-black active:scale-95" title="আইডি কপি">
+                                            <i class="fa-regular fa-copy"></i>
+                                        </button>
+                                    `;
+                                }
+                            }
+                        });
+                    }
                     container.appendChild(card);
                 });
             } catch(e) {
-                container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>';
+                container.innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-8">লোড করা যায়নি</p>';
             }
         }
 
@@ -1219,7 +1353,7 @@
                 } else {
                     container.innerHTML = '<p class="text-xs text-gray-400 font-bold text-center py-8">কোনো পোস্ট নেই</p>';
                 }
-            } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
+            } catch(e) { container.innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
         function updateBroadcastCount() {
@@ -1387,7 +1521,7 @@
                         `;
                     });
                 }
-            } catch(e) { container.innerHTML = '<p class="text-xs text-red-400 font-bold text-center py-8">লোড করা যায়নি</p>'; }
+            } catch(e) { container.innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-8">লোড করা যায়নি</p>'; }
         }
 
         // ক্লাউড নোটিস
@@ -1456,7 +1590,7 @@
             }
         }
 
-        // 🌟 সুন্দর কাস্টম ইন-অ্যাপ মেসেজ ডায়লগ ফাংশন
+        // 🌟 কাস্টম ইন-অ্যাপ মেসেজ ডায়লগ ফাংশন
         function sendDirectMessage(userId, userName) {
             activeDirectUserId = userId;
             document.getElementById('dm-modal-username').innerText = userName;
@@ -1506,7 +1640,7 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            showToast('আইডি কপি হয়েছে!');
+            showToast('কপি করা হয়েছে!');
         }
 
         // Webhook চেক
@@ -1520,7 +1654,7 @@
                     el.className = 'text-xs font-black text-emerald-500';
                 } else {
                     el.innerText = '❌ সেট করা নেই';
-                    el.className = 'text-xs font-black text-red-400';
+                    el.className = 'text-xs font-black text-red-500';
                 }
             } catch(e) {}
         }
